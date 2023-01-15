@@ -3,20 +3,15 @@ attribute vec4 aRandom;
 attribute vec3 aTargetPosition;
 
 // input uniforms
-uniform float uAmplitudeX;
-uniform float uAmplitudeY;
 uniform float uAspectRatio;
 uniform vec2 uBBoxMax;
 uniform vec2 uBBoxMin;
-uniform float uFrequency;
-uniform float uIsOrtho;
 uniform float uMouseX;
 uniform float uMouseY;
 uniform float uNoiseRotation;
 uniform sampler2D uNoiseTexture;
 uniform float uSize;
 uniform float uTime;
-uniform float uTweenDuration;
 uniform float uTweenProgress;
 
 // output varyings
@@ -128,7 +123,7 @@ void main() {
 
 	gl_Position = projectedPosition;
 	gl_PointSize = max(0.01, uSize * (aRandom.y + 0.5));
-	gl_PointSize *= (1.0 / max(uIsOrtho, -viewPosition.z));
+	gl_PointSize *= 1.0;
 
 	vDistance = abs(10.0) * 0.01 * aRandom.z;
 	vMouseStrengh = mouseStrengh;

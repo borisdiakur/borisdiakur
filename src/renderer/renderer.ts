@@ -7,21 +7,20 @@ import { camera } from '../camera/camera'
 import { TickerEvents } from '../ticker/tickerEvents'
 import { SizesEvents } from '../sizes/sizesEvents'
 
+const pixelRatio = isHighPerfDevice ? Math.min(window.devicePixelRatio, 2) : 1
 const webGLRenderer = new WebGLRenderer({
 	canvas,
 	powerPreference: 'high-performance',
-	antialias: true,
+	antialias: pixelRatio === 1,
 	alpha: true,
 })
 webGLRenderer.shadowMap.autoUpdate = false
 webGLRenderer.shadowMap.enabled = false
+webGLRenderer.physicallyCorrectLights = false
 webGLRenderer.setSize(sizes.width, sizes.height)
-webGLRenderer.physicallyCorrectLights = true
 webGLRenderer.outputEncoding = sRGBEncoding
 webGLRenderer.toneMapping = NoToneMapping
-webGLRenderer.setPixelRatio(
-	isHighPerfDevice ? Math.min(window.devicePixelRatio, 2) : 1
-)
+webGLRenderer.setPixelRatio(pixelRatio)
 
 function onResize() {
 	webGLRenderer.setSize(sizes.width, sizes.height)

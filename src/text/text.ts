@@ -92,6 +92,7 @@ function onResize() {
 	const { width, height } = sizes
 	for (let i = 0; i < 5; i++) {
 		chars[i].position.y = Math.max(height / width - 1.5, 0.066)
+		chars[i].updateMatrix()
 	}
 }
 

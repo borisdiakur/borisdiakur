@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/dat.gui': ^0.7.7
+  '@types/lodash.memoize': ^4.1.7
   '@types/stats.js': ^0.17.0
   '@types/three': ^0.143.1
   '@typescript-eslint/eslint-plugin': ^5.35.1
@@ -10,6 +11,7 @@ specifiers:
   eslint: ^8.22.0
   gsap: ^3.11.1
   lil-gui: ^0.17.0
+  lodash.memoize: ^4.1.2
   postcss: ^8.4.16
   postcss-import: ^14.1.0
   postcss-nested: ^5.0.6
@@ -24,11 +26,13 @@ specifiers:
 dependencies:
   gsap: 3.11.1
   lil-gui: 0.17.0
+  lodash.memoize: 4.1.2
   stats.js: 0.17.0
   three: 0.143.0
 
 devDependencies:
   '@types/dat.gui': 0.7.7
+  '@types/lodash.memoize': 4.1.7
   '@types/stats.js': 0.17.0
   '@types/three': 0.143.1
   '@typescript-eslint/eslint-plugin': 5.35.1_ktjxjibzrfqejavile4bhmzhjq
@@ -286,6 +290,16 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/lodash.memoize/4.1.7:
+    resolution: {integrity: sha512-lGN7WeO4vO6sICVpf041Q7BX/9k1Y24Zo3FY0aUezr1QlKznpjzsDk3T3wvH8ofYzoK0QupN9TWcFAFZlyPwQQ==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/stats.js/0.17.0:
@@ -1378,7 +1392,6 @@ packages:
 
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==}
-    dev: true
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}

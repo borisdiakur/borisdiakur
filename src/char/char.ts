@@ -4,6 +4,7 @@ import { GeometryUtils } from '../geometryUtils'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import gsap from 'gsap'
 import { font } from '../font/font'
+import memoize from 'lodash.memoize'
 
 export class Char {
 	private isTweening = false
@@ -36,6 +37,7 @@ export class Char {
 		this.update(char)
 
 		this.particles = new Points(this.particlesGeometry, this.material)
+		this.particles.matrixAutoUpdate = false
 		scene.add(this.particles)
 	}
 
@@ -43,11 +45,15 @@ export class Char {
 		return this.particles.position
 	}
 
+	updateMatrix() {
+		this.particles.updateMatrix()
+	}
+
 	getChar() {
 		return this.char
 	}
 
-	private static getRandomPointsWithBoundingBox(char: string) {
+	private static getRandomPointsWithBoundingBox = memoize((char: string) => {
 		if (!font.font) return
 		const geometry: BufferGeometry = new TextGeometry(char || '•', {
 			font: font.font,
@@ -69,7 +75,7 @@ export class Char {
 			points: randomPointsInTextGeometry,
 			boundingBox,
 		}
-	}
+	})
 
 	private static getTargetPositions(pointsInGeometry: Vector3[]) {
 		const targetPositions = new Float32Array(Char.totalVertices * 3) // Multiply by 3 because each position is composed of 3 values (x, y, z)
@@ -122,7 +128,7 @@ export class Char {
 
 		if (!isFirstRender) {
 			this.isTweening = true
-			const tweenDuration = this.material.uniforms.uTweenDuration.value
+			const tweenDuration = this.material.defines.uTweenDuration
 			gsap.to(this.tweenObj, {
 				progress: tweenDuration,
 				duration: tweenDuration,
