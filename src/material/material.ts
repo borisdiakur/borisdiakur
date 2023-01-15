@@ -12,7 +12,6 @@ import { sizes } from '../sizes/sizes'
 import { MouseEvents } from '../mouse/mouseEvents'
 import { mouse } from '../mouse/mouse'
 import { camera } from '../camera/camera'
-import { EnterEvents } from '../enter/enterEvents'
 
 const debugObject = {
 	amplitudeX: 10,
@@ -86,35 +85,6 @@ window.addEventListener(MouseEvents.move, () => {
 	})
 })
 
-function onTilt(beta: number, gamma: number) {
-	const amplitudeY = Math.max(Math.min(30, beta - 30), -30)
-	const amplitudeX = Math.max(Math.min(30, gamma), -30)
-	materials.forEach((material) => {
-		material.uniforms.uAmplitudeX.value = amplitudeX
-		material.uniforms.uAmplitudeY.value = amplitudeY
-	})
-}
-
-window.addEventListener(EnterEvents.enter, () => {
-	if (window.DeviceOrientationEvent) {
-		window.addEventListener(
-			'deviceorientation',
-			(ev) => {
-				onTilt(ev.beta || 0, ev.gamma || 0)
-			},
-			true
-		)
-	} else if (window.DeviceMotionEvent) {
-		window.addEventListener(
-			'devicemotion',
-			(ev) => {
-				onTilt((ev.acceleration?.x || 0) * 2, (ev.acceleration?.y || 0) * 2)
-			},
-			true
-		)
-	}
-})
-
 getGui().then((gui) => {
 	if (gui) {
 		const gf = gui.addFolder('Material')
@@ -155,11 +125,6 @@ getGui().then((gui) => {
 						debugObject.size * renderer.getPixelRatio()
 				})
 			})
-		// gf.add(material, 'side', {
-		// 	FrontSide,
-		// 	DoubleSide,
-		// })
-		// gf.add(material, 'transparent')
 		gf.add(debugObject, 'tweenDuration')
 			.min(0.1)
 			.max(20)
@@ -169,7 +134,6 @@ getGui().then((gui) => {
 					material.uniforms.uTweenDuration.value = debugObject.tweenDuration
 				})
 			})
-		// gf.add(material, 'wireframe')
 		gf.close()
 	}
 })

@@ -5,7 +5,6 @@ import { Char } from '../char/char'
 import { FontEvents } from '../font/fontEvents'
 import { sizes } from '../sizes/sizes'
 import { SizesEvents } from '../sizes/sizesEvents'
-import { EnterEvents } from '../enter/enterEvents'
 
 let currentWord = ''
 const chars: Char[] = []
@@ -96,21 +95,6 @@ function onResize() {
 	}
 }
 
-let fontsReady = false
-let deviceMotionReady = false
-function onReady() {
-	if (!fontsReady || !deviceMotionReady) return
-
-	setTimeout(() => {
-		next()
-	}, 1500)
-
-	onResize()
-	window.addEventListener(SizesEvents.resize, onResize)
-
-	document.body.classList.add('ready')
-}
-
 function next(i = 0) {
 	const word = words[i].word
 	if (word !== currentWord) {
@@ -137,11 +121,13 @@ window.addEventListener(FontEvents.load, () => {
 	for (let i = 0; i < 5; i++) {
 		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * 0.25 + 0.03
 	}
-	fontsReady = true
-	onReady()
-})
 
-window.addEventListener(EnterEvents.enter, () => {
-	deviceMotionReady = true
-	onReady()
+	setTimeout(() => {
+		next()
+	}, 1500)
+
+	onResize()
+	window.addEventListener(SizesEvents.resize, onResize)
+
+	document.body.classList.add('ready')
 })
