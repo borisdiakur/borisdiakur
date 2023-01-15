@@ -5,6 +5,7 @@ import { Char } from '../char/char'
 import { FontEvents } from '../font/fontEvents'
 import { sizes } from '../sizes/sizes'
 import { SizesEvents } from '../sizes/sizesEvents'
+import { EnterEvents } from '../enter/enterEvents'
 
 let currentWord = ''
 const chars: Char[] = []
@@ -95,6 +96,38 @@ function onResize() {
 	}
 }
 
+let fontsReady = false
+let deviceMotionReady = false
+function onReady() {
+	if (!fontsReady || !deviceMotionReady) return
+
+	setTimeout(() => {
+		next()
+	}, 1500)
+
+	onResize()
+	window.addEventListener(SizesEvents.resize, onResize)
+
+	document.body.classList.add('ready')
+}
+
+function next(i = 0) {
+	const word = words[i].word
+	if (word !== currentWord) {
+		currentWord = words[i].word
+		chars.forEach((char, i) => {
+			if ((word[i] || '') !== char.getChar()) {
+				setTimeout(() => {
+					char.update(word[i])
+				}, i * 50)
+			}
+		})
+	}
+	setTimeout(() => {
+		next(i >= words.length - 1 ? 0 : i + 1)
+	}, words[i].timeout)
+}
+
 window.addEventListener(FontEvents.load, () => {
 	chars.push(new Char('H', getMaterial(), scene))
 	chars.push(new Char('e', getMaterial(), scene))
@@ -104,29 +137,11 @@ window.addEventListener(FontEvents.load, () => {
 	for (let i = 0; i < 5; i++) {
 		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * 0.25 + 0.03
 	}
+	fontsReady = true
+	onReady()
+})
 
-	const next = (i = 0) => {
-		const word = words[i].word
-		if (word !== currentWord) {
-			currentWord = words[i].word
-			chars.forEach((char, i) => {
-				if ((word[i] || '') !== char.getChar()) {
-					setTimeout(() => {
-						char.update(word[i])
-					}, i * 50)
-				}
-			})
-		}
-		setTimeout(() => {
-			next(i >= words.length - 1 ? 0 : i + 1)
-		}, words[i].timeout)
-	}
-	setTimeout(() => {
-		next()
-	}, 1500)
-
-	onResize()
-	window.addEventListener(SizesEvents.resize, onResize)
-
-	document.body.classList.add('ready')
+window.addEventListener(EnterEvents.enter, () => {
+	deviceMotionReady = true
+	onReady()
 })

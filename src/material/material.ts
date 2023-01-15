@@ -12,6 +12,7 @@ import { sizes } from '../sizes/sizes'
 import { MouseEvents } from '../mouse/mouseEvents'
 import { mouse } from '../mouse/mouse'
 import { camera } from '../camera/camera'
+import { EnterEvents } from '../enter/enterEvents'
 
 const debugObject = {
 	amplitudeX: 10,
@@ -94,23 +95,26 @@ function onTilt(beta: number, gamma: number) {
 	})
 }
 
-if (window.DeviceOrientationEvent) {
-	window.addEventListener(
-		'deviceorientation',
-		(ev) => {
-			onTilt(ev.beta || 0, ev.gamma || 0)
-		},
-		true
-	)
-} else if (window.DeviceMotionEvent) {
-	window.addEventListener(
-		'devicemotion',
-		(ev) => {
-			onTilt((ev.acceleration?.x || 0) * 2, (ev.acceleration?.y || 0) * 2)
-		},
-		true
-	)
-}
+window.addEventListener(EnterEvents.enter, () => {
+	if (window.DeviceMotionEvent) {
+		window.addEventListener(
+			'devicemotion',
+			(ev) => {
+				onTilt((ev.acceleration?.x || 0) * 2, (ev.acceleration?.y || 0) * 2)
+			},
+			true
+		)
+	}
+})
+// if (window.DeviceOrientationEvent) {
+// 	window.addEventListener(
+// 		'deviceorientation',
+// 		(ev) => {
+// 			onTilt(ev.beta || 0, ev.gamma || 0)
+// 		},
+// 		true
+// 	)
+// }
 
 getGui().then((gui) => {
 	if (gui) {
