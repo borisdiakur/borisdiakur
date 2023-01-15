@@ -90,7 +90,6 @@ words = words.map((word) => {
 
 function onResize() {
 	const { width, height } = sizes
-	console.info('height / width', height / width)
 	for (let i = 0; i < 5; i++) {
 		chars[i].position.y = Math.max(height / width - 1.5, 0)
 	}

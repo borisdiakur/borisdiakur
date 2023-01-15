@@ -16,7 +16,7 @@ import { camera } from '../camera/camera'
 const debugObject = {
 	amplitude: 10,
 	frequency: 3,
-	size: 0.002,
+	size: 0.004,
 	tweenDuration: 0.5,
 }
 

@@ -9,7 +9,7 @@ export class Char {
 	private isTweening = false
 	private char = ''
 	private material: ShaderMaterial
-	private static totalVertices = Math.pow(2, 14)
+	private static totalVertices = Math.pow(2, 12)
 	private particlesGeometry: BufferGeometry
 	private tweenObj = {
 		progress: 0,
