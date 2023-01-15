@@ -1,0 +1,13 @@
+@font-face {
+	font-family: 'Gochi Hand';
+	src: url('/fonts/gochi_hand.woff2') format('woff2 supports variations'),
+		url('/fonts/gochi_hand.woff2') format('woff2-variations');
+	font-display: swap;
+}
+
+body {
+	font-family: 'Gochi Hand', 'Comic Sans MS';
+	color: lightseagreen;
+	font-size: 1.3rem;
+	line-height: 1.5;
+}

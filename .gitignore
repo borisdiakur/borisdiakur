@@ -1,0 +1,13 @@
+# Logs
+logs
+*.log
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode
+.idea
+.DS_Store
+
+# Project related
+node_modules
+dist

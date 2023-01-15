@@ -1,0 +1,10 @@
+[role='link'] {
+	pointer-events: all;
+	color: darkslategray;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		color: mediumvioletred;
+	}
+}

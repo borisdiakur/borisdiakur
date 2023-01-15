@@ -1,0 +1,12 @@
+footer {
+	position: fixed;
+	bottom: 2rem;
+	margin: 0 auto;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 4;
+	pointer-events: none;
+	cursor: none;
+	visibility: visible !important;
+}

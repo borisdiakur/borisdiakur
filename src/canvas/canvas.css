@@ -1,0 +1,87 @@
+.canvas {
+	position: fixed;
+	z-index: 3;
+	top: 0;
+	pointer-events: all;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: transparent;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	&--controllable {
+		cursor: grab;
+	}
+
+	&--grabbing {
+		cursor: grabbing;
+	}
+}
+
+body {
+	background: radial-gradient(
+		ellipse at var(--mouse-x, 50%) var(--mouse-y, 50%),
+		floralwhite 13%,
+		honeydew 78%
+	);
+	&::before,
+	&::after {
+		content: '';
+		width: 300%;
+		aspect-ratio: 1;
+		position: fixed;
+		z-index: 9999999;
+		left: 50vw;
+		top: 50vh;
+		border-radius: 100%;
+		transform: translate(-50%, -50%);
+		animation-duration: 1700ms;
+		animation-timing-function: ease-in;
+		animation-fill-mode: forwards;
+	}
+	&::before {
+		background: radial-gradient(
+			ellipse at 50% 50%,
+			honeydew 13%,
+			lightcyan 78%
+		);
+		animation-name: enter-before;
+		z-index: 99999999;
+	}
+	&::after {
+		background-color: #000054;
+		animation-name: enter-after;
+		animation-delay: 20ms;
+		opacity: 0.05;
+	}
+
+	&.ready {
+		&::before {
+			animation-name: enter-before;
+		}
+		&::after {
+			animation-name: enter-after;
+		}
+	}
+}
+
+@keyframes enter-before {
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(100%, -180%) scale(0);
+	}
+}
+
+@keyframes enter-after {
+	60% {
+		opacity: 0.05;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(100%, -120%) scale(0);
+	}
+}
