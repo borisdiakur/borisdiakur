@@ -45,7 +45,7 @@ let words = [
 	{ word: 'I', timeout: 400 },
 	{ word: 'like', timeout: 600 },
 	{ word: 'CATS!', timeout: 2200 },
-	{ word: 'AND', timeout: 600 },
+	{ word: 'and', timeout: 600 },
 	{ word: 'Dogs!', timeout: 2200 },
 	{ word: '<3', timeout: 2000 },
 	{ word: 'but', timeout: 1800 },
@@ -63,7 +63,7 @@ let words = [
 	{ word: 'that', timeout: 800 },
 	{ word: 'by', timeout: 600 },
 	{ word: 'now', timeout: 1500 },
-	{ word: 'Bon', timeout: 800 },
+	{ word: 'BOn', timeout: 800 },
 	{ word: 'jour', timeout: 1200 },
 	{ word: 'Nihao', timeout: 1000 },
 	{ word: 'Hoi', timeout: 700 },
@@ -73,7 +73,7 @@ let words = [
 	{ word: 'Selam', timeout: 800 },
 	{ word: 'Hej', timeout: 700 },
 	{ word: ':-)', timeout: 1500 },
-	{ word: 'LoL', timeout: 1500 },
+	{ word: 'LoL', timeout: 3000 },
 	{ word: 'Hi', timeout: 1500 },
 ]
 const pad = (str: string, length: number, char = ' ') =>
