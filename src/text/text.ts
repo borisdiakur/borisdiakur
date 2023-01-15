@@ -54,7 +54,7 @@ let words = [
 	{ word: 'have', timeout: 800 },
 	{ word: 'any', timeout: 1500 },
 	{ word: ':-(', timeout: 3100 },
-	{ word: 'AlOha', timeout: 1500 },
+	{ word: 'ALOHA', timeout: 1500 },
 	{ word: "I'm", timeout: 600 },
 	{ word: 'BORiS', timeout: 1500 },
 	{ word: 'but', timeout: 500 },
