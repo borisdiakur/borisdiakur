@@ -96,7 +96,15 @@ function onTilt(beta: number, gamma: number) {
 }
 
 window.addEventListener(EnterEvents.enter, () => {
-	if (window.DeviceMotionEvent) {
+	if (window.DeviceOrientationEvent) {
+		window.addEventListener(
+			'deviceorientation',
+			(ev) => {
+				onTilt(ev.beta || 0, ev.gamma || 0)
+			},
+			true
+		)
+	} else if (window.DeviceMotionEvent) {
 		window.addEventListener(
 			'devicemotion',
 			(ev) => {
@@ -106,15 +114,6 @@ window.addEventListener(EnterEvents.enter, () => {
 		)
 	}
 })
-// if (window.DeviceOrientationEvent) {
-// 	window.addEventListener(
-// 		'deviceorientation',
-// 		(ev) => {
-// 			onTilt(ev.beta || 0, ev.gamma || 0)
-// 		},
-// 		true
-// 	)
-// }
 
 getGui().then((gui) => {
 	if (gui) {
