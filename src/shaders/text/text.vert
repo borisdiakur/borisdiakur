@@ -98,36 +98,30 @@ void main() {
 	_y += sin(modelPosition.x * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.y;
-	_y *= uAmplitudeY * 0.002;
+	_y *= uAmplitudeY * 0.003;
 	float _x = sin(modelPosition.y * frequency);
 	_x += sin(modelPosition.y * frequency * 2.1 + t) * 4.5 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.x;
-	_x *= uAmplitudeX * 0.002;
+	_x *= uAmplitudeX * 0.003;
 	float _z = sin(modelPosition.z * frequency);
 	_z += sin(modelPosition.z * frequency * 2.1 + t) * 4.5 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.z;
-	_z *= (uAmplitudeX + uAmplitudeY) * 0.001;
+	_z *= (uAmplitudeX + uAmplitudeY) * 0.0015;
 	modelPosition.y += _y * 0.1 * aRandom.z;
 	modelPosition.x += _x * 0.1 * aRandom.x;
 	modelPosition.z += _z * 0.1 * aRandom.y;
 
-	// Rocket boost effect (using amplitude uniform)
+	// Boost effect
 	modelPosition.x +=
-		(aRandom.x - 0.5) * 3.0 * mouseStrengh * aRandom.z;
+		(aRandom.x - 0.5) * 6.0 * mouseStrengh * aRandom.z;
 	modelPosition.y -=
-		-abs((aRandom.y - 0.5) * 2.0 * mouseStrengh * aRandom.z);
+		-abs((aRandom.y - 0.5) * 4.0 * mouseStrengh * aRandom.z);
 	modelPosition.z +=
-		(aRandom.z - 0.5) * 1.0 * mouseStrengh * aRandom.x;
-
-	// Fancy modulo based effect
-	modelPosition.y +=
-		mod(modelPosition.x * 10.0, 0.5) * (0.5 * mouseStrengh);
-	modelPosition.x +=
-		mod(modelPosition.y * 10.0, 0.5) * (0.5 * mouseStrengh);
+		(aRandom.z - 0.5) * 2.0 * mouseStrengh * aRandom.x;
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
