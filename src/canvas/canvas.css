@@ -1,8 +1,8 @@
 .canvas {
 	position: fixed;
-	z-index: 3;
+	z-index: 999999;
 	top: 0;
-	pointer-events: all;
+	pointer-events: none;
 	user-select: none;
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: transparent;
@@ -12,6 +12,7 @@
 
 	&--controllable {
 		cursor: grab;
+		pointer-events: all;
 	}
 
 	&--grabbing {
