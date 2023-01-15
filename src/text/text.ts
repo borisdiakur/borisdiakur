@@ -63,7 +63,7 @@ let words = [
 	{ word: 'that', timeout: 800 },
 	{ word: 'by', timeout: 600 },
 	{ word: 'now', timeout: 1500 },
-	{ word: 'Bon', timeout: 500 },
+	{ word: 'Bon', timeout: 800 },
 	{ word: 'jour', timeout: 1200 },
 	{ word: 'Nihao', timeout: 1000 },
 	{ word: 'Hoi', timeout: 700 },
