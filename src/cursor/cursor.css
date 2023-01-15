@@ -1,21 +1,24 @@
 *,
 *::after,
 *::before {
-	cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
-		none !important;
+	cursor: none;
 }
 
 .cursor {
 	--pulse-amplitude-max: 1.75;
 	opacity: 0;
 	position: fixed;
-	z-index: 99999;
+	z-index: 9;
 	width: 1rem;
 	aspect-ratio: 1;
 	border-radius: 100%;
 	display: block;
 	transition: opacity 0.2s ease;
 	pointer-events: none;
+
+	@media (hover: none) {
+		visibility: hidden;
+	}
 }
 
 .cursor > span,

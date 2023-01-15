@@ -1,6 +1,6 @@
 .canvas {
 	position: fixed;
-	z-index: 999999;
+	z-index: 99;
 	top: 0;
 	pointer-events: none;
 	user-select: none;
@@ -32,7 +32,7 @@ body {
 		width: 300%;
 		aspect-ratio: 1;
 		position: fixed;
-		z-index: 9999999;
+		z-index: 999;
 		left: 50vw;
 		top: 50vh;
 		border-radius: 100%;
@@ -48,7 +48,7 @@ body {
 			lightcyan 78%
 		);
 		animation-name: enter-before;
-		z-index: 99999999;
+		z-index: 9999;
 	}
 	&::after {
 		background-color: #000054;

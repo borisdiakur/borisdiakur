@@ -1,3 +1,4 @@
+import './gui.css'
 import Stats from 'stats.js'
 import { GUI } from 'lil-gui'
 

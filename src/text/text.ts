@@ -83,7 +83,7 @@ const maxChars = words
 	.reduce((accumulator, currentValue) => Math.max(accumulator, currentValue))
 words = words.map((word) => {
 	return {
-		word: pad(word.word, maxChars, '§'),
+		word: pad(word.word, maxChars, '§').replaceAll(/\s/g, '§'),
 		timeout: word.timeout,
 	}
 })
@@ -91,7 +91,7 @@ words = words.map((word) => {
 function onResize() {
 	const { width, height } = sizes
 	for (let i = 0; i < 5; i++) {
-		chars[i].position.y = Math.max(height / width - 1.5, 0)
+		chars[i].position.y = Math.max(height / width - 1.5, 0.066)
 	}
 }
 

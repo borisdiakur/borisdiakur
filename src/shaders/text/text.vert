@@ -3,7 +3,8 @@ attribute vec4 aRandom;
 attribute vec3 aTargetPosition;
 
 // input uniforms
-uniform float uAmplitude;
+uniform float uAmplitudeX;
+uniform float uAmplitudeY;
 uniform float uAspectRatio;
 uniform vec2 uBBoxMax;
 uniform vec2 uBBoxMin;
@@ -62,9 +63,9 @@ void main() {
 		position.z * tweenProgressInv + aTargetPosition.z * tweenProgressFract);
 	vec3 tweenPositionNoise =
 		vec3(tweenPositionDirect.x +
-					 noise.x * 0.025 * uAmplitude * sin(tweenProgressFract * M_PI),
+					 noise.x * 0.25 * sin(tweenProgressFract * M_PI),
 				 tweenPositionDirect.y +
-					 noise.y * 0.0125 * uAmplitude * sin(tweenProgressFract * M_PI),
+					 noise.y * 0.125 * sin(tweenProgressFract * M_PI),
 				 tweenPositionDirect.z);
 	vec4 modelPosition = modelMatrix * vec4(tweenPositionNoise, 1.0);
 
@@ -97,36 +98,36 @@ void main() {
 	_y += sin(modelPosition.x * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.y;
-	_y *= uAmplitude * 0.002;
+	_y *= uAmplitudeY * 0.002;
 	float _x = sin(modelPosition.y * frequency);
 	_x += sin(modelPosition.y * frequency * 2.1 + t) * 4.5 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.x;
-	_x *= uAmplitude * 0.002;
+	_x *= uAmplitudeX * 0.002;
 	float _z = sin(modelPosition.z * frequency);
 	_z += sin(modelPosition.z * frequency * 2.1 + t) * 4.5 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.z;
 	_z += sin(modelPosition.z * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.z;
-	_z *= uAmplitude * 0.002;
+	_z *= (uAmplitudeX + uAmplitudeY) * 0.001;
 	modelPosition.y += _y * 0.1 * aRandom.z;
 	modelPosition.x += _x * 0.1 * aRandom.x;
 	modelPosition.z += _z * 0.1 * aRandom.y;
 
 	// Rocket boost effect (using amplitude uniform)
 	modelPosition.x +=
-		(aRandom.x - 0.5) * 0.3 * mouseStrengh * uAmplitude * aRandom.z;
+		(aRandom.x - 0.5) * 3.0 * mouseStrengh * aRandom.z;
 	modelPosition.y -=
-		-abs((aRandom.y - 0.5) * 0.2 * mouseStrengh * uAmplitude * aRandom.z);
+		-abs((aRandom.y - 0.5) * 2.0 * mouseStrengh * aRandom.z);
 	modelPosition.z +=
-		(aRandom.z - 0.5) * 0.1 * mouseStrengh * uAmplitude * aRandom.x;
+		(aRandom.z - 0.5) * 1.0 * mouseStrengh * aRandom.x;
 
 	// Fancy modulo based effect
 	modelPosition.y +=
-		mod(modelPosition.x * 10.0, 0.5) * (uAmplitude * 0.05 * mouseStrengh);
+		mod(modelPosition.x * 10.0, 0.5) * (0.5 * mouseStrengh);
 	modelPosition.x +=
-		mod(modelPosition.y * 10.0, 0.5) * (uAmplitude * 0.05 * mouseStrengh);
+		mod(modelPosition.y * 10.0, 0.5) * (0.5 * mouseStrengh);
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
@@ -135,7 +136,7 @@ void main() {
 	gl_PointSize = max(0.01, uSize * (aRandom.y + 0.5));
 	gl_PointSize *= (1.0 / max(uIsOrtho, -viewPosition.z));
 
-	vDistance = abs(uAmplitude) * 0.01 * aRandom.z;
+	vDistance = abs(10.0) * 0.01 * aRandom.z;
 	vMouseStrengh = mouseStrengh;
 	vPosition = modelPosition.xyz;
 	vRandom = aRandom;

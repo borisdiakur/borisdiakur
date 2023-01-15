@@ -14,7 +14,8 @@ import { mouse } from '../mouse/mouse'
 import { camera } from '../camera/camera'
 
 const debugObject = {
-	amplitude: 10,
+	amplitudeX: 10,
+	amplitudeY: 10,
 	frequency: 3,
 	size: 0.004,
 	tweenDuration: 0.5,
@@ -34,7 +35,8 @@ export function getMaterial() {
 		depthTest: false,
 		transparent: true,
 		uniforms: {
-			uAmplitude: { value: debugObject.amplitude },
+			uAmplitudeX: { value: debugObject.amplitudeX },
+			uAmplitudeY: { value: debugObject.amplitudeY },
 			uAspectRatio: { value: sizes.width / sizes.height },
 			uBBoxMin: { value: new Vector2(0, 0) },
 			uBBoxMax: { value: new Vector2(1, 1) },
@@ -83,16 +85,52 @@ window.addEventListener(MouseEvents.move, () => {
 	})
 })
 
+function onTilt(beta: number, gamma: number) {
+	const amplitudeY = Math.max(Math.min(30, beta - 30), -30)
+	const amplitudeX = Math.max(Math.min(30, gamma), -30)
+	materials.forEach((material) => {
+		material.uniforms.uAmplitudeX.value = amplitudeX
+		material.uniforms.uAmplitudeY.value = amplitudeY
+	})
+}
+
+if (window.DeviceOrientationEvent) {
+	window.addEventListener(
+		'deviceorientation',
+		(ev) => {
+			onTilt(ev.beta || 0, ev.gamma || 0)
+		},
+		true
+	)
+} else if (window.DeviceMotionEvent) {
+	window.addEventListener(
+		'devicemotion',
+		(ev) => {
+			onTilt((ev.acceleration?.x || 0) * 2, (ev.acceleration?.y || 0) * 2)
+		},
+		true
+	)
+}
+
 getGui().then((gui) => {
 	if (gui) {
 		const gf = gui.addFolder('Material')
-		gf.add(debugObject, 'amplitude')
+		gf.add(debugObject, 'amplitudeX')
 			.min(-100)
 			.max(100)
 			.step(0.01)
 			.onChange(() => {
 				materials.forEach((material) => {
-					material.uniforms.uAmplitude.value = debugObject.amplitude
+					material.uniforms.uAmplitudeX.value = debugObject.amplitudeX
+				})
+			})
+		gf.add(debugObject, 'amplitudeY')
+			.min(-100)
+			.max(100)
+			.step(0.01)
+			.onChange(() => {
+				materials.forEach((material) => {
+					material.uniforms.uAmplitudeY.value = debugObject.amplitudeY
 				})
 			})
 		gf.add(debugObject, 'frequency')
