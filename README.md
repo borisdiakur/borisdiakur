@@ -9,6 +9,6 @@ My main go-to tools these days are HTML, PostCSS, Tailwind CSS, Typescript and V
 🔄 [backflip.training](https://backflip.training)<br>
 🚗 [zarulem.borisdiakur.de](https://zarulem.borisdiakur.de)<br>
 
-#### I hang out on mastodon
+#### I hang out on Mastodon
 
 🦣 [mas.to/@diakur](https://mas.to/@diakur)
