@@ -37,10 +37,31 @@
 	&:hover,
 	&:focus {
 		animation-name: hiphop;
-		color: #8e2b88;
 
 		& > span {
 			animation-name: hiphop;
+
+			&:nth-of-type(7n + 1) {
+				color: darkcyan;
+			}
+			&:nth-of-type(7n + 3) {
+				color: darkolivegreen;
+			}
+			&:nth-of-type(7n + 2) {
+				color: goldenrod;
+			}
+			&:nth-of-type(7n + 5) {
+				color: limegreen;
+			}
+			&:nth-of-type(7n + 4) {
+				color: blueviolet;
+			}
+			&:nth-of-type(7n + 7) {
+				color: darkslategrey;
+			}
+			&:nth-of-type(7n + 6) {
+				color: darkolivegreen;
+			}
 		}
 	}
 }
