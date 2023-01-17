@@ -4,24 +4,9 @@ const cursor = document.createElement('span')
 cursor.innerHTML = `
 	<span>
 		<span>
-			<span></span>
 		</span>
 	</span>
-	<span>
-		<span>
-			<span></span>
-		</span>
-	</span>
-	<span>
-		<span>
-			<span></span>
-		</span>
-	</span>
-	<span>
-		<span>
-			<span></span>
-		</span>
-	</span>`
+	`
 cursor.classList.add('cursor')
 document.body.appendChild(cursor)
 const root = document.documentElement

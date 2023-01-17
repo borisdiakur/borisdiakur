@@ -5,6 +5,7 @@
 }
 
 .cursor {
+	--cursor-frequency: 1;
 	--pulse-amplitude-max: 1.1;
 	opacity: 0;
 	position: fixed;
@@ -15,10 +16,6 @@
 	display: block;
 	transition: opacity 0.2s ease;
 	pointer-events: none;
-
-	@media (hover: none) {
-		visibility: hidden;
-	}
 }
 
 .cursor > span {
@@ -27,71 +24,22 @@
 	width: 100%;
 	aspect-ratio: 1;
 	animation-name: spin;
-	animation-duration: 2200ms;
+	animation-duration: calc(var(--cursor-frequency) * 160ms);
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
-	transform-origin: 80%;
+	transform-origin: 58%;
 
 	& > span {
 		aspect-ratio: 1;
 		animation-name: pulse;
-		animation-duration: 2200ms;
+		animation-duration: 10000ms;
+		display: block;
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 100%;
+		background-color: currentColor;
+		animation-iteration-count: infinite;
 	}
-
-	&:nth-of-type(2) {
-		width: 70%;
-		z-index: 1;
-	}
-
-	&:first-of-type {
-		animation-duration: 1200ms;
-		animation-delay: 500ms;
-		width: 82%;
-
-		& > span {
-			--pulse-amplitude-max: 1.2;
-			width: 50%;
-			opacity: 0.3;
-		}
-	}
-	&:nth-of-type(2) {
-		animation-duration: 1400ms;
-		animation-delay: 900ms;
-		animation-direction: reverse;
-		width: 88%;
-
-		& > span {
-			--pulse-amplitude-max: 1.4;
-			width: 40%;
-			animation-delay: 180ms;
-		}
-	}
-	&:last-of-type {
-		animation-duration: 800ms;
-		animation-delay: 2500ms;
-		width: 80%;
-
-		& > span {
-			--pulse-amplitude-max: 1.7;
-			width: 30%;
-			animation-delay: 80ms;
-			opacity: 0.5;
-		}
-	}
-}
-
-.cursor > span > span,
-.cursor > span > span > span {
-	display: block;
-	width: 100%;
-	aspect-ratio: 1;
-	border-radius: 100%;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
-}
-
-.cursor > span > span > span {
-	background-color: currentColor;
 }
 
 @keyframes pulse {
