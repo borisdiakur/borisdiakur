@@ -8,6 +8,10 @@ const onClick = (ev: Event) => {
 }
 
 document.querySelectorAll('[data-href]').forEach((link) => {
+	link.innerHTML = (link.textContent || '')
+		.split('')
+		.map((c) => `<span>${c}</span>`)
+		.join('')
 	link.addEventListener('click', (ev) => {
 		onClick(ev)
 	})

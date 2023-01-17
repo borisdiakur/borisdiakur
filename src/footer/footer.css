@@ -5,26 +5,9 @@ footer {
 	left: 50%;
 	transform: translateX(-50%);
 	text-align: center;
-	z-index: 4;
+	z-index: 99;
 	pointer-events: none;
 	cursor: none;
 	visibility: visible !important;
-
-	color: lightseagreen;
-	-webkit-text-fill-color: transparent;
-	background: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		from(lightseagreen),
-		to(steelblue)
-	);
-	background: -o-gradient(
-		linear,
-		left top,
-		left bottom,
-		from(lightseagreen),
-		to(steelblue)
-	);
-	-webkit-background-clip: text;
+	color: #3dc123;
 }

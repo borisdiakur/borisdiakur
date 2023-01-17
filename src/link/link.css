@@ -2,40 +2,54 @@
 	pointer-events: all;
 	color: darkslategray;
 	text-decoration: none;
-	-webkit-text-fill-color: transparent;
-	background: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		from(steelblue),
-		to(darkslategray)
-	);
-	background: -o-gradient(
-		linear,
-		left top,
-		left bottom,
-		from(steelblue),
-		to(darkslategray)
-	);
-	-webkit-background-clip: text;
+
+	& > span {
+		display: inline-flex;
+		position: relative;
+		animation-duration: 80ms;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate-reverse;
+
+		&:nth-of-type(7n + 1) {
+			animation-delay: 40ms;
+		}
+		&:nth-of-type(7n + 3) {
+			animation-delay: 10ms;
+		}
+		&:nth-of-type(7n + 2) {
+			animation-delay: 70ms;
+		}
+		&:nth-of-type(7n + 5) {
+			animation-delay: 20ms;
+		}
+		&:nth-of-type(7n + 4) {
+			animation-delay: 30ms;
+		}
+		&:nth-of-type(7n + 7) {
+			animation-delay: 50ms;
+		}
+		&:nth-of-type(7n + 6) {
+			animation-delay: 80ms;
+		}
+	}
 
 	&:hover,
 	&:focus {
+		animation-name: hiphop;
 		color: #8e2b88;
-		background: -webkit-gradient(
-			linear,
-			left top,
-			left bottom,
-			from(#ff0052),
-			to(#8e2b88)
-		);
-		background: -o-gradient(
-			linear,
-			left top,
-			left bottom,
-			from(#ff0052),
-			to(#8e2b88)
-		);
-		-webkit-background-clip: text;
+
+		& > span {
+			animation-name: hiphop;
+		}
+	}
+}
+
+@keyframes hiphop {
+	from {
+		transform: translateY(-6%);
+	}
+	to {
+		transform: translateY(2%);
 	}
 }
