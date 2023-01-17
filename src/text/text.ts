@@ -19,13 +19,13 @@ let words = [
 	{ word: 'Dev', timeout: 1500 },
 	{ word: 'Nice', timeout: 600 },
 	{ word: 'to', timeout: 400 },
-	{ word: 'meet', timeout: 600 },
-	{ word: 'you', timeout: 1500 },
+	{ word: 'meet', timeout: 700 },
+	{ word: 'You', timeout: 1500 },
 	{ word: ':-)', timeout: 3100 },
 	{ word: 'Hola!', timeout: 1500 },
 	{ word: "I'm", timeout: 600 },
 	{ word: 'BoRiS', timeout: 1500 },
-	{ word: 'I', timeout: 500 },
+	{ word: 'I', timeout: 600 },
 	{ word: 'code', timeout: 700 },
 	{ word: 'fOr', timeout: 500 },
 	{ word: 'the', timeout: 500 },
@@ -36,7 +36,7 @@ let words = [
 	{ word: 'B0RiS', timeout: 1500 },
 	{ word: 'Again', timeout: 1500 },
 	{ word: 'haha!', timeout: 1200 },
-	{ word: 'I', timeout: 500 },
+	{ word: 'I', timeout: 600 },
 	{ word: 'like', timeout: 600 },
 	{ word: 'to', timeout: 400 },
 	{ word: 'hack', timeout: 800 },
@@ -58,7 +58,7 @@ let words = [
 	{ word: "I'm", timeout: 600 },
 	{ word: 'BORiS', timeout: 1500 },
 	{ word: 'but', timeout: 500 },
-	{ word: 'you', timeout: 500 },
+	{ word: 'you', timeout: 600 },
 	{ word: 'know', timeout: 700 },
 	{ word: 'that', timeout: 800 },
 	{ word: 'by', timeout: 600 },
@@ -96,14 +96,19 @@ function onResize() {
 	}
 }
 
+function wordsHaveDifferentLength(w1: string, w2: string) {
+	return w1.replaceAll(/§/g, '').length !== w2.replaceAll(/§/g, '').length
+}
+
 function next(i = 0) {
 	const word = words[i].word
 	if (word !== currentWord) {
+		const wordsDiffInLength = wordsHaveDifferentLength(word, currentWord)
 		currentWord = words[i].word
 		chars.forEach((char, i) => {
-			if ((word[i] || '') !== char.getChar()) {
+			if (wordsDiffInLength || (word[i] || '') !== char.getChar()) {
 				setTimeout(() => {
-					char.update(word[i])
+					char.update(word[i], word.replaceAll(/§/g, '').length % 2 === 0)
 				}, i * 50)
 			}
 		})
@@ -114,13 +119,14 @@ function next(i = 0) {
 }
 
 window.addEventListener(FontEvents.load, () => {
-	chars.push(new Char('H', getMaterial(), scene))
-	chars.push(new Char('e', getMaterial(), scene))
-	chars.push(new Char('l', getMaterial(), scene))
-	chars.push(new Char('l', getMaterial(), scene))
-	chars.push(new Char('o', getMaterial(), scene))
+	const offsetX = 0.25
+	chars.push(new Char('H', getMaterial(), scene, offsetX))
+	chars.push(new Char('e', getMaterial(), scene, offsetX))
+	chars.push(new Char('l', getMaterial(), scene, offsetX))
+	chars.push(new Char('l', getMaterial(), scene, offsetX))
+	chars.push(new Char('o', getMaterial(), scene, offsetX))
 	for (let i = 0; i < 5; i++) {
-		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * 0.25 + 0.03
+		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * offsetX + 0.02
 	}
 
 	setTimeout(() => {

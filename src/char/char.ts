@@ -15,11 +15,18 @@ export class Char {
 	private tweenObj = {
 		progress: 0,
 	}
-	private particles
+	private offsetX = 0
+	private particles: Points<BufferGeometry, ShaderMaterial>
 
-	constructor(char: string, material: ShaderMaterial, scene: Scene) {
+	constructor(
+		char: string,
+		material: ShaderMaterial,
+		scene: Scene,
+		offsetX = 0
+	) {
 		this.char = char
 		this.material = material
+		this.offsetX = offsetX
 
 		this.particlesGeometry = new BufferGeometry()
 		const randoms = new Float32Array(Char.totalVertices * 4)
@@ -34,7 +41,7 @@ export class Char {
 			new BufferAttribute(randoms, 4)
 		)
 
-		this.update(char)
+		this.update(char, false)
 
 		this.particles = new Points(this.particlesGeometry, this.material)
 		this.particles.matrixAutoUpdate = false
@@ -77,18 +84,21 @@ export class Char {
 		}
 	})
 
-	private static getTargetPositions(pointsInGeometry: Vector3[]) {
+	private static getTargetPositions(
+		pointsInGeometry: Vector3[],
+		offsetX: number
+	) {
 		const targetPositions = new Float32Array(Char.totalVertices * 3) // Multiply by 3 because each position is composed of 3 values (x, y, z)
 		for (let i = 0; i < targetPositions.length; i += 3) {
 			const vertex = pointsInGeometry[i / 3]
-			targetPositions[i] = vertex.x // x
+			targetPositions[i] = vertex.x + offsetX // x
 			targetPositions[i + 1] = vertex.y // y
 			targetPositions[i + 2] = vertex.z // z
 		}
 		return targetPositions
 	}
 
-	update(char = '') {
+	update(char = '', useOffsetX: boolean) {
 		this.char = char
 		if (this.isTweening) return
 
@@ -96,7 +106,10 @@ export class Char {
 		const pointsAndBBox = Char.getRandomPointsWithBoundingBox(char)
 		if (!pointsAndBBox) return
 		const { points, boundingBox } = pointsAndBBox
-		const targetPositions = Char.getTargetPositions(points)
+		const targetPositions = Char.getTargetPositions(
+			points,
+			useOffsetX ? this.offsetX / 2 : 0
+		)
 		const isFirstRender = !this.particlesGeometry.getAttribute('position')
 
 		// Update bounding
@@ -150,32 +163,10 @@ export class Char {
 					this.isTweening = false
 
 					if (this.char !== char) {
-						this.update(this.char)
+						this.update(this.char, useOffsetX)
 					}
 				},
 			})
 		}
 	}
 }
-
-// getGui().then((gui) => {
-// 	if (gui) {
-// 		const gf = gui.addFolder('Char')
-// 		gf.add(particles.position, 'x')
-// 			.min(-5)
-// 			.max(5)
-// 			.step(0.0001)
-// 			.name('Particles position X')
-// 		gf.add(particles.position, 'y')
-// 			.min(-5)
-// 			.max(5)
-// 			.step(0.0001)
-// 			.name('Particles position Y')
-// 		gf.add(particles.position, 'z')
-// 			.min(-5)
-// 			.max(5)
-// 			.step(0.0001)
-// 			.name('Particles position Z')
-// 		gf.close()
-// 	}
-// })

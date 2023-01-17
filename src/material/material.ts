@@ -44,7 +44,7 @@ export function getMaterial() {
 		},
 		defines: {
 			uFrequency: 3,
-			uTweenDuration: 0.6,
+			uTweenDuration: 0.5,
 			uAmplitudeX: 10.4,
 			uAmplitudeY: 10.4,
 		},
