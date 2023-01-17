@@ -1,10 +1,27 @@
 import './cursor.css'
 
 const cursor = document.createElement('span')
-const cursorInner = document.createElement('span')
-const cursorInnerInner = document.createElement('span')
-cursorInner.appendChild(cursorInnerInner)
-cursor.appendChild(cursorInner)
+cursor.innerHTML = `
+	<span>
+		<span>
+			<span></span>
+		</span>
+	</span>
+	<span>
+		<span>
+			<span></span>
+		</span>
+	</span>
+	<span>
+		<span>
+			<span></span>
+		</span>
+	</span>
+	<span>
+		<span>
+			<span></span>
+		</span>
+	</span>`
 cursor.classList.add('cursor')
 document.body.appendChild(cursor)
 const root = document.documentElement

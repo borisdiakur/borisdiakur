@@ -5,11 +5,11 @@
 }
 
 .cursor {
-	--pulse-amplitude-max: 1.75;
+	--pulse-amplitude-max: 1.1;
 	opacity: 0;
 	position: fixed;
 	z-index: 9;
-	width: 1rem;
+	width: 1.2rem;
 	aspect-ratio: 1;
 	border-radius: 100%;
 	display: block;
@@ -21,26 +21,77 @@
 	}
 }
 
-.cursor > span,
-.cursor > span > span {
+.cursor > span {
+	position: absolute;
 	display: block;
 	width: 100%;
-	height: 100%;
+	aspect-ratio: 1;
+	animation-name: spin;
+	animation-duration: 2200ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	transform-origin: 80%;
+
+	& > span {
+		aspect-ratio: 1;
+		animation-name: pulse;
+		animation-duration: 2200ms;
+	}
+
+	&:nth-of-type(2) {
+		width: 70%;
+		z-index: 1;
+	}
+
+	&:first-of-type {
+		animation-duration: 1200ms;
+		animation-delay: 500ms;
+		width: 82%;
+
+		& > span {
+			--pulse-amplitude-max: 1.2;
+			width: 50%;
+			opacity: 0.3;
+		}
+	}
+	&:nth-of-type(2) {
+		animation-duration: 1400ms;
+		animation-delay: 900ms;
+		animation-direction: reverse;
+		width: 88%;
+
+		& > span {
+			--pulse-amplitude-max: 1.4;
+			width: 40%;
+			animation-delay: 180ms;
+		}
+	}
+	&:last-of-type {
+		animation-duration: 800ms;
+		animation-delay: 2500ms;
+		width: 80%;
+
+		& > span {
+			--pulse-amplitude-max: 1.7;
+			width: 30%;
+			animation-delay: 80ms;
+			opacity: 0.5;
+		}
+	}
+}
+
+.cursor > span > span,
+.cursor > span > span > span {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
 	border-radius: 100%;
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
-.cursor > span {
-	animation-name: pulse;
-	animation-duration: 8000ms;
-	color: midnightblue;
-}
 
-.cursor > span > span {
+.cursor > span > span > span {
 	background-color: currentColor;
-	animation-name: spin;
-	animation-duration: 200ms;
-	transform-origin: 30%;
 }
 
 @keyframes pulse {
