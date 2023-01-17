@@ -68,9 +68,9 @@
 
 @keyframes hiphop {
 	from {
-		transform: translateY(-6%);
+		transform: translateY(-3%) translateX(-4%);
 	}
 	to {
-		transform: translateY(2%);
+		transform: translateY(2%) translateX(4%);
 	}
 }
