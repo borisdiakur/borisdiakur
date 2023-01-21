@@ -1,7 +1,9 @@
 import './link.css'
 
 const onClick = (ev: Event) => {
-	const target = ev.target as HTMLElement
+	const target = (ev.target as HTMLElement).closest(
+		'[data-href]'
+	) as HTMLElement
 	if (target.dataset.href) {
 		location.href = target.dataset.href
 	}
