@@ -3,6 +3,8 @@
 	color: darkslategray;
 	text-decoration: none;
 	white-space: nowrap;
+	border-radius: 40% 80%;
+	outline-offset: 0.4rem;
 
 	& > span {
 		display: inline-flex;
