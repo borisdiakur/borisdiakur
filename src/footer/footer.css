@@ -1,6 +1,6 @@
 footer {
 	position: fixed;
-	bottom: 2rem;
+	bottom: 1rem;
 	margin: 0 auto;
 	left: 50%;
 	transform: translateX(-50%);
@@ -10,4 +10,6 @@ footer {
 	cursor: none;
 	visibility: visible !important;
 	color: lightseagreen;
+	width: max-content;
+	max-width: calc(100% - 2rem);
 }
