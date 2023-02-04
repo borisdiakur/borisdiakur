@@ -90,9 +90,15 @@ void main() {
 	float frequency = 1.0;
 	float _y = sin(modelPosition.x * frequency);
 	float t = 0.005 * (-uTime * 100.0 * (1.0 - aRandom.z / 3.0));
+	_y += sin(modelPosition.x * frequency * 2.1 + t) * 4.5 * aRandom.y;
+	_y += sin(modelPosition.x * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.y;
+	_y += sin(modelPosition.x * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.y;
 	_y *= uAmplitudeY * 0.003;
 	float _x = sin(modelPosition.y * frequency);
+	_x += sin(modelPosition.y * frequency * 2.1 + t) * 4.5 * aRandom.x;
+	_x += sin(modelPosition.y * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.x;
+	_x += sin(modelPosition.y * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.x;
 	_x *= uAmplitudeX * 0.003;
 	modelPosition.y += _y * 0.1 * aRandom.z;
