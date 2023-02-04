@@ -1,9 +1,12 @@
 body {
-	background: radial-gradient(
+	background-image: radial-gradient(
 		ellipse at var(--mouse-x, 50%) var(--mouse-y, 50%),
 		floralwhite 13%,
 		honeydew 78%
 	);
+	background-repeat: no-repeat;
+	background-size: max(100vw, 100vh) max(100vw, 100vh);
+	background-position: center;
 
 	&::before {
 		animation-duration: 0.25s;
