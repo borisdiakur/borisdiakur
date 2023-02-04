@@ -69,7 +69,7 @@ export class Char {
 		if (!font.font) return
 		const geometry: BufferGeometry = new TextGeometry(char || '•', {
 			font: font.font,
-			size: 0.4,
+			size: 0.45,
 			height: 0,
 			curveSegments: 1,
 			bevelEnabled: false,

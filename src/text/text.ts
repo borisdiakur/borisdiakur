@@ -122,7 +122,7 @@ function next(i = 0) {
 }
 
 window.addEventListener(FontEvents.load, () => {
-	const offsetX = 0.25
+	const offsetX = 0.275
 	chars.push(new Char('H', getMaterial(), scene, offsetX))
 	chars.push(new Char('e', getMaterial(), scene, offsetX))
 	chars.push(new Char('l', getMaterial(), scene, offsetX))
