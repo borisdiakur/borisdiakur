@@ -13,6 +13,8 @@
 	& > span {
 		display: inline-flex;
 		position: relative;
+		transition: color 0.5s ease;
+		will-change: color;
 		animation-duration: 70ms;
 		animation-iteration-count: infinite;
 		animation-timing-function: ease-in-out;
