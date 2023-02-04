@@ -12,17 +12,19 @@ html {
 	border-radius: 70% 80%;
 	outline-offset: 0.3rem;
 
-	&:hover,
-	&:focus:focus-visible {
-		.toggle-moon circle,
-		.toggle-moon path,
-		.ray {
-			animation-name: resize;
-			animation-duration: 80ms;
-			animation-iteration-count: infinite;
-			animation-timing-function: ease-in-out;
-			animation-direction: alternate-reverse;
-			transform-origin: center;
+	@media (hover: hover) {
+		&:hover,
+		&:focus:focus-visible {
+			.toggle-moon circle,
+			.toggle-moon path,
+			.ray {
+				animation-name: resize;
+				animation-duration: 80ms;
+				animation-iteration-count: infinite;
+				animation-timing-function: ease-in-out;
+				animation-direction: alternate-reverse;
+				transform-origin: center;
+			}
 		}
 	}
 
