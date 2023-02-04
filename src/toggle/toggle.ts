@@ -2,7 +2,8 @@ import './toggle.css'
 
 const toggle = document.createElement('label') as HTMLLabelElement
 toggle.classList.add('dark-light-toggle')
-toggle.ariaLabel = 'Switch dark light mode'
+toggle.ariaLabel = 'Switch between dark and light mode'
+toggle.setAttribute('role', 'switch')
 toggle.tabIndex = 0
 
 let isDark
