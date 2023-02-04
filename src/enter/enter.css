@@ -5,62 +5,27 @@ body {
 		honeydew 78%
 	);
 
-	&::before,
-	&::after {
-		content: '';
-		width: 300%;
-		aspect-ratio: 1;
-		position: absolute;
-		z-index: 999;
-		left: 50vw;
-		top: 50vh;
-		border-radius: 100%;
-		transform: translate(-50%, -50%);
-		animation-duration: 1700ms;
+	&::before {
+		animation-duration: 0.25s;
 		animation-timing-function: ease-in;
 		animation-fill-mode: forwards;
-		will-change: transform;
-	}
-	&::before {
-		background: radial-gradient(
-			ellipse at 50% 50%,
-			honeydew 13%,
-			lightcyan 78%
-		);
-		z-index: 9999;
-	}
-	&::after {
-		background-color: #000054;
-		animation-delay: 20ms;
-		opacity: 0.05;
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 999;
+		background-color: honeydew;
 	}
 
 	&.ready {
 		&::before {
-			animation-name: enter-before;
-		}
-		&::after {
-			animation-name: enter-after;
+			animation-name: enter;
 		}
 	}
 }
 
-@keyframes enter-before {
-	80% {
-		opacity: 1;
-	}
+@keyframes enter {
 	100% {
 		opacity: 0;
-		transform: translate(-100%, -180%) scale(0);
-	}
-}
-
-@keyframes enter-after {
-	60% {
-		opacity: 0.05;
-	}
-	100% {
-		opacity: 0;
-		transform: translate(-100%, -120%) scale(0);
+		visibility: hidden;
 	}
 }
