@@ -19,6 +19,19 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 		/>
+		<script>
+			var storedPref = window.localStorage.getItem('dark-light')
+			if (storedPref !== null) {
+				var isDark = storedPref === 'dark' ? true : false
+				document.documentElement.classList.add(
+					`ui-${this.isDark ? 'dark' : 'light'}`
+				)
+				document.documentElement.classList.remove(
+					`ui-${!this.isDark ? 'dark' : 'light'}`
+				)
+				document.documentElement.style.colorScheme = isDark ? 'dark' : 'auto'
+			}
+		</script>
 		<style>
 			html,
 			body {
@@ -30,6 +43,12 @@
 				html {
 					filter: invert(0.9) hue-rotate(320deg) brightness(0.88);
 				}
+			}
+			html.ui-light {
+				filter: none;
+			}
+			html.ui-dark {
+				filter: invert(0.9) hue-rotate(320deg) brightness(0.88);
 			}
 		</style>
 	</head>

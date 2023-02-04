@@ -38,7 +38,7 @@
 	}
 
 	&:hover,
-	&:focus {
+	&:focus:focus-visible {
 		animation-name: hiphop;
 
 		& > span {

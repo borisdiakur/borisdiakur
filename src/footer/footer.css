@@ -5,7 +5,6 @@ footer {
 	left: 50%;
 	transform: translateX(-50%);
 	text-align: center;
-	z-index: 99;
 	pointer-events: none;
 	cursor: none;
 	visibility: visible !important;

@@ -1,0 +1,174 @@
+html {
+	transition: filter 0.3s ease-in-out;
+}
+
+.dark-light-toggle {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	width: 3rem;
+	height: 3rem;
+	user-select: none;
+	border-radius: 70% 80%;
+	outline-offset: 0.3rem;
+
+	&:hover,
+	&:focus:focus-visible {
+		.toggle-moon circle,
+		.toggle-moon path,
+		.ray {
+			animation-name: resize;
+			animation-duration: 80ms;
+			animation-iteration-count: infinite;
+			animation-timing-function: ease-in-out;
+			animation-direction: alternate-reverse;
+			transform-origin: center;
+		}
+	}
+
+	svg {
+		stroke-width: 2px;
+		width: 100%;
+		height: 100%;
+	}
+
+	input {
+		display: none;
+
+		&:checked {
+			& ~ .toggle-moon {
+				transition: transform 0.2s 0.1s ease, visibility 0s 0.3s linear;
+				transform: translateY(0.5rem) scale(0);
+				visibility: hidden;
+
+				svg {
+					transition: transform 0.5s 0.1s ease;
+					transform: rotate(-40deg);
+				}
+			}
+
+			& ~ .toggle-sun {
+				transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				transform: translateY(0rem) scale(1);
+				visibility: visible;
+				z-index: 2;
+			}
+		}
+	}
+}
+
+.toggle-moon,
+.toggle-sun {
+	position: absolute;
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.toggle-sun {
+	transition: transform 0.2s 0.1s ease, visibility 0s 0.3s linear;
+	transform: translateY(0.5rem) scale(0);
+	visibility: hidden;
+
+	g {
+		animation-name: spin-wobble;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate;
+		transform-origin: 51%;
+		fill: darkcyan;
+
+		&:nth-of-type(7n + 3) {
+			fill: mediumseagreen;
+			animation-delay: 100ms;
+
+			.ray {
+				animation-delay: 100ms;
+			}
+		}
+		&:nth-of-type(7n + 2) {
+			fill: darkslategrey;
+			animation-delay: 600ms;
+
+			.ray {
+				animation-delay: 600ms;
+			}
+		}
+		&:nth-of-type(7n + 5) {
+			fill: blueviolet;
+			animation-delay: 200ms;
+
+			.ray {
+				animation-delay: 200ms;
+			}
+		}
+		&:nth-of-type(7n + 4) {
+			fill: dimgrey;
+			animation-delay: 300ms;
+
+			.ray {
+				animation-delay: 300ms;
+			}
+		}
+		&:nth-of-type(7n + 7) {
+			fill: indigo;
+			animation-delay: 500ms;
+
+			.ray {
+				animation-delay: 500ms;
+			}
+		}
+	}
+}
+
+.toggle-moon {
+	transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	z-index: 1;
+
+	svg {
+		transform-origin: center;
+		transition: transform 0.5s ease;
+	}
+	path {
+		fill: #000054;
+	}
+	circle {
+		fill: #000054;
+		opacity: 0.1;
+	}
+	g {
+		animation-name: hover;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate;
+	}
+}
+
+@keyframes spin-wobble {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(20deg);
+	}
+}
+
+@keyframes hover {
+	from {
+		transform: translateY(-5%) translateX(-1%) rotate(-1deg);
+	}
+	to {
+		transform: translateY(4%) translateX(1%) rotate(1deg);
+	}
+}
+
+@keyframes resize {
+	from {
+		transform: scale(0.96);
+	}
+	to {
+		transform: scale(1.02);
+	}
+}
