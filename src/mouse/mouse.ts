@@ -72,4 +72,8 @@ if (isTouchDevice) {
 	})
 }
 
+document.body.addEventListener('touchmove', (ev) => ev.preventDefault(), {
+	passive: false,
+})
+
 export const mouse = mouseObj

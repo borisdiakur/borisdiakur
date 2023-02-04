@@ -8,7 +8,7 @@
 	--cursor-frequency: 1;
 	--pulse-amplitude-max: 1.1;
 	opacity: 0;
-	position: fixed;
+	position: absolute;
 	z-index: 9;
 	width: 1.2rem;
 	aspect-ratio: 1;
