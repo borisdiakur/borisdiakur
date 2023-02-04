@@ -9,6 +9,7 @@ import { SizesEvents } from '../sizes/sizesEvents'
 import { sizes } from '../sizes/sizes'
 import { MouseEvents } from '../mouse/mouseEvents'
 import { mouse } from '../mouse/mouse'
+import { isTouchDevice } from '../utils'
 
 function getSize() {
 	return 0.2 * renderer.getPixelRatio() * Math.pow(sizes.width, 0.5)
@@ -40,6 +41,7 @@ export function getMaterial() {
 			},
 			uTargetOpacity: { value: 0 },
 			uTime: { value: 0 },
+			uTouch: { value: isTouchDevice ? 0 : 1 },
 			uTweenProgress: { value: 0 },
 		},
 		defines: {

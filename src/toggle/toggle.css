@@ -9,9 +9,9 @@ html {
 .dark-light-toggle {
 	position: fixed;
 	top: 1.4rem;
-	right: 1.6rem;
-	width: 3rem;
-	height: 3rem;
+	right: clamp(1rem, 4.5vw, 1.6rem);
+	width: clamp(2rem, 10vw, 3rem);
+	aspect-ratio: 1;
 	user-select: none;
 	border-radius: 70% 80%;
 	outline-offset: 0.3rem;

@@ -57,6 +57,10 @@ export class Char {
 		this.particles.updateMatrix()
 	}
 
+	updateTouch(touch: number) {
+		this.material.uniforms.uTouch.value = touch
+	}
+
 	getChar() {
 		return this.char
 	}

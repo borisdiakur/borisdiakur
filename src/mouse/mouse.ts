@@ -1,17 +1,64 @@
 import { MouseEvents } from './mouseEvents'
+import { isTouchDevice } from '../utils'
 
 const mouseObj = {
 	clientX: 0,
 	clientY: 0,
 }
 
-function handleMove(ev: MouseEvent) {
-	mouseObj.clientX = ev.clientX
-	mouseObj.clientY = ev.clientY
-
-	window.dispatchEvent(new CustomEvent(MouseEvents.move))
+function handleMove(clientX: number, clientY: number) {
+	mouseObj.clientX = clientX
+	mouseObj.clientY = clientY
+	window.dispatchEvent(
+		new CustomEvent(MouseEvents.move, {
+			detail: {
+				clientX,
+				clientY,
+			},
+		})
+	)
 }
+window.addEventListener(
+	'mousemove',
+	(ev) => handleMove(ev.clientX, ev.clientY),
+	{ passive: true }
+)
 
-window.addEventListener('mousemove', handleMove, { passive: true })
+if (isTouchDevice) {
+	let isTouchdown = false
+	window.addEventListener(
+		'touchstart',
+		(ev) => {
+			isTouchdown = true
+			handleMove(ev.touches[0].clientX, ev.touches[0].clientY)
+			window.dispatchEvent(new CustomEvent(MouseEvents.touchstart))
+		},
+		{ passive: true }
+	)
+	window.addEventListener(
+		'touchend',
+		() => {
+			isTouchdown = false
+			window.dispatchEvent(new CustomEvent(MouseEvents.touchend))
+		},
+		{ passive: true }
+	)
+	window.addEventListener(
+		'touchcancel',
+		() => {
+			isTouchdown = false
+			window.dispatchEvent(new CustomEvent(MouseEvents.touchend))
+		},
+		{ passive: true }
+	)
+	window.addEventListener(
+		'touchmove',
+		(ev) => {
+			if (!isTouchdown) return
+			handleMove(ev.touches[0].clientX, ev.touches[0].clientY)
+		},
+		{ passive: true }
+	)
+}
 
 export const mouse = mouseObj

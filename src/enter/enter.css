@@ -4,6 +4,7 @@ body {
 		floralwhite 13%,
 		honeydew 78%
 	);
+
 	&::before,
 	&::after {
 		content: '';

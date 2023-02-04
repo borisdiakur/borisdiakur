@@ -5,6 +5,9 @@ import { Char } from '../char/char'
 import { FontEvents } from '../font/fontEvents'
 import { sizes } from '../sizes/sizes'
 import { SizesEvents } from '../sizes/sizesEvents'
+import { isTouchDevice } from '../utils'
+import { MouseEvents } from '../mouse/mouseEvents'
+import gsap from 'gsap'
 
 let currentWord = ''
 const chars: Char[] = []
@@ -125,7 +128,7 @@ window.addEventListener(FontEvents.load, () => {
 	chars.push(new Char('l', getMaterial(), scene, offsetX))
 	chars.push(new Char('l', getMaterial(), scene, offsetX))
 	chars.push(new Char('o', getMaterial(), scene, offsetX))
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < chars.length; i++) {
 		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * offsetX + 0.02
 	}
 
@@ -135,6 +138,36 @@ window.addEventListener(FontEvents.load, () => {
 
 	onResize()
 	window.addEventListener(SizesEvents.resize, onResize)
+
+	if (isTouchDevice) {
+		const tweenObj = {
+			touch: 0,
+		}
+		window.addEventListener(MouseEvents.touchstart, () => {
+			gsap.to(tweenObj, {
+				touch: 2.4,
+				duration: 0.05,
+				overwrite: 'auto',
+				onUpdate: () => {
+					for (const char of chars) {
+						char.updateTouch(tweenObj.touch)
+					}
+				},
+			})
+		})
+		window.addEventListener(MouseEvents.touchend, () => {
+			gsap.to(tweenObj, {
+				touch: 0,
+				duration: 0.5,
+				overwrite: 'auto',
+				onUpdate: () => {
+					for (const char of chars) {
+						char.updateTouch(tweenObj.touch)
+					}
+				},
+			})
+		})
+	}
 
 	document.body.classList.add('ready')
 })

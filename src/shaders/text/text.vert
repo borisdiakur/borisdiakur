@@ -12,6 +12,7 @@ uniform float uNoiseRotation;
 uniform sampler2D uNoiseTexture;
 uniform float uSize;
 uniform float uTime;
+uniform float uTouch;
 uniform float uTweenProgress;
 
 // output varyings
@@ -81,9 +82,9 @@ void main() {
 
 	// Some vibration on mouse over
 	modelPosition.x +=
-		mouseStrengh * cos((uTime + aRandom.x) * 50.0 * aRandom.y) * 0.05;
+		mouseStrengh * uTouch * cos((uTime + aRandom.x) * 50.0 * aRandom.y) * 0.05;
 	modelPosition.y +=
-		mouseStrengh * sin((uTime + aRandom.y) * 50.0 * aRandom.x) * 0.05;
+		mouseStrengh * uTouch * sin((uTime + aRandom.y) * 50.0 * aRandom.x) * 0.05;
 
 	// Wobble effect
 	float frequency = 1.0;
@@ -112,11 +113,11 @@ void main() {
 
 	// Boost effect
 	modelPosition.x +=
-		(aRandom.x - 0.5) * 6.0 * mouseStrengh * aRandom.z;
+		(aRandom.x - 0.5) * 6.0 * mouseStrengh * uTouch * aRandom.z;
 	modelPosition.y -=
-		-abs((aRandom.y - 0.5) * 4.0 * mouseStrengh * aRandom.z);
+		-abs((aRandom.y - 0.5) * 4.0 * mouseStrengh * uTouch * aRandom.z);
 	modelPosition.z +=
-		(aRandom.z - 0.5) * 2.0 * mouseStrengh * aRandom.x;
+		(aRandom.z - 0.5) * 2.0 * mouseStrengh * uTouch * aRandom.x;
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
