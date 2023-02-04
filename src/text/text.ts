@@ -13,6 +13,7 @@ let currentWord = ''
 const chars: Char[] = []
 
 let words = [
+	{ word: 'Hello', timeout: 1500 },
 	{ word: "I'm", timeout: 600 },
 	{ word: 'BORiS', timeout: 1500 },
 	{ word: "I'm", timeout: 600 },
@@ -77,7 +78,6 @@ let words = [
 	{ word: 'Hej', timeout: 700 },
 	{ word: ':-)', timeout: 1500 },
 	{ word: 'LoL', timeout: 3000 },
-	{ word: 'Hi', timeout: 1500 },
 ]
 const pad = (str: string, length: number, char = ' ') =>
 	str.padStart((str.length + length) / 2, char).padEnd(length, char)
@@ -123,18 +123,18 @@ function next(i = 0) {
 
 window.addEventListener(FontEvents.load, () => {
 	const offsetX = 0.28
-	chars.push(new Char('H', getMaterial(), scene, offsetX))
-	chars.push(new Char('e', getMaterial(), scene, offsetX))
-	chars.push(new Char('l', getMaterial(), scene, offsetX))
-	chars.push(new Char('l', getMaterial(), scene, offsetX))
-	chars.push(new Char('o', getMaterial(), scene, offsetX))
+	chars.push(new Char('', getMaterial(), scene, offsetX))
+	chars.push(new Char('', getMaterial(), scene, offsetX))
+	chars.push(new Char('', getMaterial(), scene, offsetX))
+	chars.push(new Char('', getMaterial(), scene, offsetX))
+	chars.push(new Char('', getMaterial(), scene, offsetX))
 	for (let i = 0; i < chars.length; i++) {
 		chars[i].position.x = ((maxChars + 1) / 2 - maxChars + i) * offsetX + 0.02
 	}
 
 	setTimeout(() => {
 		next()
-	}, 1500)
+	}, 500)
 
 	onResize()
 	window.addEventListener(SizesEvents.resize, onResize)
