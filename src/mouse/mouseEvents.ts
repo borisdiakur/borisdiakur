@@ -1,5 +1,7 @@
 export enum MouseEvents {
+	mousedown = 'MouseEvents.mousedown',
+	mouseup = 'MouseEvents.mouseup',
 	move = 'MouseEvents.move',
-	touchstart = 'MouseEvents.touchstart',
 	touchend = 'MouseEvents.touchend',
+	touchstart = 'MouseEvents.touchstart',
 }

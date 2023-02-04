@@ -18,11 +18,6 @@ function handleMove(clientX: number, clientY: number) {
 		})
 	)
 }
-window.addEventListener(
-	'mousemove',
-	(ev) => handleMove(ev.clientX, ev.clientY),
-	{ passive: true }
-)
 
 if (isTouchDevice) {
 	let isTouchdown = false
@@ -59,6 +54,22 @@ if (isTouchDevice) {
 		},
 		{ passive: true }
 	)
+} else {
+	window.addEventListener(
+		'mousemove',
+		(ev) => handleMove(ev.clientX, ev.clientY),
+		{ passive: true }
+	)
+	window.addEventListener('mousedown', (ev) => {
+		handleMove(ev.clientX, ev.clientY)
+		window.dispatchEvent(new CustomEvent(MouseEvents.mousedown))
+	})
+	window.addEventListener('mouseup', () => {
+		window.dispatchEvent(new CustomEvent(MouseEvents.mouseup))
+	})
+	window.addEventListener('mouseleave', () => {
+		window.dispatchEvent(new CustomEvent(MouseEvents.mouseup))
+	})
 }
 
 export const mouse = mouseObj

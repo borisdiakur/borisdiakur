@@ -122,7 +122,7 @@ function next(i = 0) {
 }
 
 window.addEventListener(FontEvents.load, () => {
-	const offsetX = 0.275
+	const offsetX = 0.28
 	chars.push(new Char('H', getMaterial(), scene, offsetX))
 	chars.push(new Char('e', getMaterial(), scene, offsetX))
 	chars.push(new Char('l', getMaterial(), scene, offsetX))
@@ -145,7 +145,7 @@ window.addEventListener(FontEvents.load, () => {
 		}
 		window.addEventListener(MouseEvents.touchstart, () => {
 			gsap.to(tweenObj, {
-				touch: 2.4,
+				touch: 2.2,
 				duration: 0.05,
 				overwrite: 'auto',
 				onUpdate: () => {
@@ -158,6 +158,35 @@ window.addEventListener(FontEvents.load, () => {
 		window.addEventListener(MouseEvents.touchend, () => {
 			gsap.to(tweenObj, {
 				touch: 0,
+				duration: 0.5,
+				overwrite: 'auto',
+				onUpdate: () => {
+					for (const char of chars) {
+						char.updateTouch(tweenObj.touch)
+					}
+				},
+			})
+		})
+	} else {
+		const tweenObj = {
+			touch: 0,
+		}
+		window.addEventListener(MouseEvents.mousedown, () => {
+			gsap.to(tweenObj, {
+				touch: 2,
+				duration: 0.1,
+				overwrite: 'auto',
+				ease: 'power2.out',
+				onUpdate: () => {
+					for (const char of chars) {
+						char.updateTouch(tweenObj.touch)
+					}
+				},
+			})
+		})
+		window.addEventListener(MouseEvents.mouseup, () => {
+			gsap.to(tweenObj, {
+				touch: 1,
 				duration: 0.5,
 				overwrite: 'auto',
 				onUpdate: () => {

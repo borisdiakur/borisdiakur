@@ -56,7 +56,7 @@ window.addEventListener(MouseEvents.move, (ev) => {
 		gsap.to(tweenObj, {
 			mouseX: (coordinates.clientX / vw) * 100,
 			mouseY: (coordinates.clientY / vh) * 100,
-			duration: 0.2,
+			duration: 0.5,
 			overwrite: 'auto',
 			onUpdate: () => {
 				root.style.setProperty('--mouse-x', `${tweenObj.mouseX}%`)

@@ -90,34 +90,19 @@ void main() {
 	float frequency = 1.0;
 	float _y = sin(modelPosition.x * frequency);
 	float t = 0.005 * (-uTime * 100.0 * (1.0 - aRandom.z / 3.0));
-	_y += sin(modelPosition.x * frequency * 2.1 + t) * 4.5 * aRandom.y;
-	_y += sin(modelPosition.x * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.y;
-	_y += sin(modelPosition.x * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.y;
 	_y += sin(modelPosition.x * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.y;
 	_y *= uAmplitudeY * 0.003;
 	float _x = sin(modelPosition.y * frequency);
-	_x += sin(modelPosition.y * frequency * 2.1 + t) * 4.5 * aRandom.x;
-	_x += sin(modelPosition.y * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.x;
-	_x += sin(modelPosition.y * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.x;
 	_x += sin(modelPosition.y * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.x;
 	_x *= uAmplitudeX * 0.003;
-	float _z = sin(modelPosition.z * frequency);
-	_z += sin(modelPosition.z * frequency * 2.1 + t) * 4.5 * aRandom.z;
-	_z += sin(modelPosition.z * frequency * 1.72 + t * 1.121) * 4.0 * aRandom.z;
-	_z += sin(modelPosition.z * frequency * 2.221 + t * 0.437) * 5.0 * aRandom.z;
-	_z += sin(modelPosition.z * frequency * 3.1122 + t * 4.269) * 2.5 * aRandom.z;
-	_z *= (uAmplitudeX + uAmplitudeY) * 0.0015;
 	modelPosition.y += _y * 0.1 * aRandom.z;
 	modelPosition.x += _x * 0.1 * aRandom.x;
-	modelPosition.z += _z * 0.1 * aRandom.y;
 
 	// Boost effect
 	modelPosition.x +=
 		(aRandom.x - 0.5) * 6.0 * mouseStrengh * uTouch * aRandom.z;
-	modelPosition.y -=
-		-abs((aRandom.y - 0.5) * 4.0 * mouseStrengh * uTouch * aRandom.z);
-	modelPosition.z +=
-		(aRandom.z - 0.5) * 2.0 * mouseStrengh * uTouch * aRandom.x;
+	modelPosition.y +=
+		(aRandom.y - 0.45) * 4.0 * mouseStrengh * uTouch * aRandom.z;
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;

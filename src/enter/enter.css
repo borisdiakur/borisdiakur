@@ -19,6 +19,7 @@ body {
 		animation-duration: 1700ms;
 		animation-timing-function: ease-in;
 		animation-fill-mode: forwards;
+		will-change: transform;
 	}
 	&::before {
 		background: radial-gradient(
@@ -50,7 +51,7 @@ body {
 	}
 	100% {
 		opacity: 0;
-		transform: translate(100%, -180%) scale(0);
+		transform: translate(-100%, -180%) scale(0);
 	}
 }
 
@@ -60,6 +61,6 @@ body {
 	}
 	100% {
 		opacity: 0;
-		transform: translate(100%, -120%) scale(0);
+		transform: translate(-100%, -120%) scale(0);
 	}
 }
