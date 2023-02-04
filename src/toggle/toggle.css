@@ -4,8 +4,8 @@ html {
 
 .dark-light-toggle {
 	position: fixed;
-	top: 1rem;
-	right: 1rem;
+	top: 1.4rem;
+	right: 1.6rem;
 	width: 3rem;
 	height: 3rem;
 	user-select: none;
@@ -77,10 +77,10 @@ html {
 		animation-timing-function: ease-in-out;
 		animation-direction: alternate;
 		transform-origin: 51%;
-		fill: darkcyan;
+		fill: #e11b65;
 
 		&:nth-of-type(8n + 3) {
-			fill: mediumseagreen;
+			fill: deeppink;
 			animation-delay: 100ms;
 
 			.ray {
@@ -88,7 +88,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 2) {
-			fill: darkslategrey;
+			fill: orange;
 			animation-delay: 600ms;
 
 			.ray {
@@ -96,7 +96,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 5) {
-			fill: blueviolet;
+			fill: mediumorchid;
 			animation-delay: 200ms;
 
 			.ray {
@@ -104,7 +104,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 6) {
-			fill: chocolate;
+			fill: coral;
 			animation-delay: 50ms;
 
 			.ray {
@@ -112,7 +112,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 4) {
-			fill: dimgrey;
+			fill: palegoldenrod;
 			animation-delay: 300ms;
 
 			.ray {
@@ -120,7 +120,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 7) {
-			fill: indigo;
+			fill: hotpink;
 			animation-delay: 500ms;
 
 			.ray {
@@ -128,7 +128,7 @@ html {
 			}
 		}
 		&:nth-of-type(8n + 8) {
-			fill: purple;
+			fill: lightpink;
 			animation-delay: 350ms;
 
 			.ray {
