@@ -73,13 +73,16 @@
 		transform: scale(var(--pulse-amplitude-max));
 	}
 	75% {
-		color: steelblue;
+		color: darkcyan;
 	}
 	80% {
 		transform: scale(1);
 	}
 	90% {
 		transform: scale(var(--pulse-amplitude-max));
+	}
+	100% {
+		color: midnightblue;
 	}
 }
 

@@ -79,7 +79,7 @@ html {
 		transform-origin: 51%;
 		fill: darkcyan;
 
-		&:nth-of-type(7n + 3) {
+		&:nth-of-type(8n + 3) {
 			fill: mediumseagreen;
 			animation-delay: 100ms;
 
@@ -87,7 +87,7 @@ html {
 				animation-delay: 100ms;
 			}
 		}
-		&:nth-of-type(7n + 2) {
+		&:nth-of-type(8n + 2) {
 			fill: darkslategrey;
 			animation-delay: 600ms;
 
@@ -95,7 +95,7 @@ html {
 				animation-delay: 600ms;
 			}
 		}
-		&:nth-of-type(7n + 5) {
+		&:nth-of-type(8n + 5) {
 			fill: blueviolet;
 			animation-delay: 200ms;
 
@@ -103,7 +103,15 @@ html {
 				animation-delay: 200ms;
 			}
 		}
-		&:nth-of-type(7n + 4) {
+		&:nth-of-type(8n + 6) {
+			fill: chocolate;
+			animation-delay: 50ms;
+
+			.ray {
+				animation-delay: 50ms;
+			}
+		}
+		&:nth-of-type(8n + 4) {
 			fill: dimgrey;
 			animation-delay: 300ms;
 
@@ -111,12 +119,20 @@ html {
 				animation-delay: 300ms;
 			}
 		}
-		&:nth-of-type(7n + 7) {
+		&:nth-of-type(8n + 7) {
 			fill: indigo;
 			animation-delay: 500ms;
 
 			.ray {
 				animation-delay: 500ms;
+			}
+		}
+		&:nth-of-type(8n + 8) {
+			fill: purple;
+			animation-delay: 350ms;
+
+			.ray {
+				animation-delay: 350ms;
 			}
 		}
 	}
@@ -131,10 +147,10 @@ html {
 		transition: transform 0.5s ease;
 	}
 	path {
-		fill: #000054;
+		fill: navy;
 	}
 	circle {
-		fill: #000054;
+		fill: navy;
 		opacity: 0.1;
 	}
 	g {
