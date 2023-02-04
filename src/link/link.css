@@ -5,11 +5,15 @@
 	white-space: nowrap;
 	border-radius: 40% 80%;
 	outline-offset: 0.4rem;
+	user-select: none;
+	touch-action: manipulation;
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: transparent;
 
 	& > span {
 		display: inline-flex;
 		position: relative;
-		animation-duration: 80ms;
+		animation-duration: 70ms;
 		animation-iteration-count: infinite;
 		animation-timing-function: ease-in-out;
 		animation-direction: alternate-reverse;
@@ -45,13 +49,13 @@
 			animation-name: hiphop;
 
 			&:nth-of-type(7n + 1) {
-				color: darkcyan;
+				color: mediumvioletred;
 			}
 			&:nth-of-type(7n + 3) {
-				color: darkolivegreen;
+				color: midnightblue;
 			}
 			&:nth-of-type(7n + 2) {
-				color: goldenrod;
+				color: dodgerblue;
 			}
 			&:nth-of-type(7n + 5) {
 				color: limegreen;
@@ -60,7 +64,7 @@
 				color: blueviolet;
 			}
 			&:nth-of-type(7n + 7) {
-				color: darkslategrey;
+				color: mediumaquamarine;
 			}
 			&:nth-of-type(7n + 6) {
 				color: darkolivegreen;
@@ -71,9 +75,9 @@
 
 @keyframes hiphop {
 	from {
-		transform: translateY(-3%) translateX(-4%);
+		transform: translateY(-2%) translateX(-3%);
 	}
 	to {
-		transform: translateY(2%) translateX(4%);
+		transform: translateY(1%) translateX(3%);
 	}
 }

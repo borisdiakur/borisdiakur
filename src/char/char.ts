@@ -5,12 +5,13 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import gsap from 'gsap'
 import { font } from '../font/font'
 import memoize from 'lodash.memoize'
+import { isTouchDevice } from '../utils'
 
 export class Char {
 	private isTweening = false
 	private char = ''
 	private material: ShaderMaterial
-	private static totalVertices = Math.pow(2, 12)
+	private static totalVertices = Math.pow(2, isTouchDevice ? 11 : 12)
 	private particlesGeometry: BufferGeometry
 	private tweenObj = {
 		progress: 0,

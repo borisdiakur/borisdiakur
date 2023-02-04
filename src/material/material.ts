@@ -11,7 +11,7 @@ import { MouseEvents } from '../mouse/mouseEvents'
 import { mouse } from '../mouse/mouse'
 
 function getSize() {
-	return 0.004 * renderer.getPixelRatio() * sizes.width
+	return 0.2 * renderer.getPixelRatio() * Math.pow(sizes.width, 0.5)
 }
 
 const materials: ShaderMaterial[] = []

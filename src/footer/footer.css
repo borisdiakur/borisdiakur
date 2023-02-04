@@ -9,6 +9,7 @@ footer {
 	cursor: none;
 	visibility: visible !important;
 	color: lightseagreen;
+	color: lightseagreen;
 	width: max-content;
 	max-width: calc(100% - 2rem);
 }
