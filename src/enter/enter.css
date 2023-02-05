@@ -10,6 +10,8 @@ html {
 }
 
 body {
+	overflow: hidden;
+
 	&::before {
 		animation-duration: 0.5s;
 		animation-timing-function: ease;
