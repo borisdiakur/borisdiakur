@@ -1,9 +1,5 @@
 html {
-	background-image: radial-gradient(
-		ellipse at 50% 50%,
-		floralwhite 13%,
-		honeydew 78%
-	);
+	background-color: honeydew;
 	background-repeat: no-repeat;
 	background-size: max(100vw, 100vh) max(100vw, 100vh);
 	background-position: center;
@@ -31,7 +27,7 @@ body {
 		background-image: radial-gradient(
 			ellipse at 50% 50%,
 			floralwhite 5%,
-			honeydew 26%
+			transparent 26%
 		);
 		background-repeat: no-repeat;
 		background-position: center;
