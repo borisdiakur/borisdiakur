@@ -5,6 +5,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import gsap from 'gsap'
 import { font } from '../font/font'
 import memoize from 'lodash.memoize'
+import throttle from 'lodash.throttle'
 import { isTouchDevice } from '../utils'
 
 export class Char {
@@ -53,8 +54,12 @@ export class Char {
 		return this.particles.position
 	}
 
-	updateMatrix() {
+	private throttledUpdateMatrix = throttle(() => {
 		this.particles.updateMatrix()
+	}, 200)
+
+	updateMatrix() {
+		this.throttledUpdateMatrix()
 	}
 
 	updateTouch(touch: number) {

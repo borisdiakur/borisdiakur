@@ -33,6 +33,12 @@ html {
 				animation-direction: alternate-reverse;
 				transform-origin: center;
 			}
+			.toggle-sun,
+			.toggle-moon {
+				g {
+					animation-play-state: paused;
+				}
+			}
 		}
 	}
 
