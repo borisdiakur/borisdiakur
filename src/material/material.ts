@@ -17,6 +17,8 @@ function getSize() {
 
 const materials: ShaderMaterial[] = []
 
+const ENTROPY = 77
+
 export function getMaterial() {
 	const material = new ShaderMaterial({
 		fragmentShader,
@@ -40,7 +42,7 @@ export function getMaterial() {
 				value: getSize(),
 			},
 			uTargetOpacity: { value: 0 },
-			uTime: { value: 0 },
+			uTime: { value: ENTROPY },
 			uTouch: { value: isTouchDevice ? 0 : 1 },
 			uTweenProgress: { value: 0 },
 		},
@@ -59,7 +61,8 @@ export function getMaterial() {
 
 window.addEventListener(TickerEvents.tick, (ev) => {
 	materials.forEach((material) => {
-		material.uniforms.uTime.value = (ev as CustomEvent).detail.elapsedTime
+		material.uniforms.uTime.value =
+			(ev as CustomEvent).detail.elapsedTime + ENTROPY
 	})
 })
 
