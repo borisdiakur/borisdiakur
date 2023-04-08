@@ -11,3 +11,4 @@ pnpm-debug.log*
 # Project related
 node_modules
 dist
+.env
