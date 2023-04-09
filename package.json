@@ -7,6 +7,7 @@
 		"dev": "vite",
 		"build": "tsc && vite build",
 		"fetch:github": "dotenv -e .env -- ts-node --esm scripts/fetchGitHub.ts",
+		"fetch:stackoverflow": "dotenv -e .env -- ts-node --esm scripts/fetchStackoverflow.ts",
 		"preview": "vite preview"
 	},
 	"devDependencies": {

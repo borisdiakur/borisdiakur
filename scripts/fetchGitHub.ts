@@ -6,7 +6,7 @@ const octokit = new Octokit({
 })
 
 // Fetch all repository names.
-async function fetchRepoNames() {
+async function fetchRepos() {
 	const { user } = await octokit.graphql<{ user: User }>(
 		`
 			query repoNames {
@@ -14,6 +14,11 @@ async function fetchRepoNames() {
 					repositories(first: 100) {
 						nodes {
 							name
+							languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+								nodes {
+									name
+								}
+							}
 						}
 					}
 				}
@@ -23,13 +28,22 @@ async function fetchRepoNames() {
 			username: 'borisdiakur',
 		}
 	)
-	return user.repositories.nodes?.map((node) => node?.name)
+	const repos: {
+		[key: string]: { langs?: (string | undefined)[] }
+	} = {}
+	user.repositories.nodes?.forEach((node) => {
+		if (!node?.name) return
+		repos[node.name] = {
+			langs: node?.languages?.nodes?.map((node) => node?.name),
+		}
+	})
+	return repos
 }
-const repositoryNames = await fetchRepoNames()
+const repos = await fetchRepos()
 
 // Fetch all commits for each repository.
 async function fetchRepoCommits(repoName: string) {
-	const myCommits: string[] = []
+	const myCommits: { date: string }[] = []
 	const iterator = octokit.paginate.iterator(octokit.rest.repos.listCommits, {
 		owner: 'borisdiakur',
 		repo: repoName,
@@ -47,16 +61,15 @@ async function fetchRepoCommits(repoName: string) {
 			) {
 				continue
 			}
-			myCommits.push(commit.author.date as string)
+			myCommits.push({ date: commit.author.date as string })
 		}
 	}
 	return myCommits
 }
-const commits: { [key: string]: string[] | undefined } = {}
-for await (const repoName of repositoryNames || []) {
-	if (!repoName) continue
-
-	commits[repoName] = await fetchRepoCommits(repoName)
+const commits: { [key: string]: { date: string }[] } = {}
+for await (const repo of Object.keys(repos) || []) {
+	if (!repo) continue
+	commits[repo] = await fetchRepoCommits(repo)
 }
 console.info('commits', commits)
 
