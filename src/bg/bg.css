@@ -4,6 +4,15 @@ html {
 	background-size: max(100vw, 100vh) max(100vw, 100vh);
 	background-position: center;
 	box-sizing: border-box;
+
+	&::after {
+		content: '';
+		position: fixed;
+		inset: 0;
+		background: honeydew;
+		z-index: -2;
+		transform: scale(2);
+	}
 }
 
 * {

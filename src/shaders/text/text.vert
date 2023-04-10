@@ -112,7 +112,7 @@ void main() {
 		(aRandom.y - 0.45) * 4.0 * mouseStrengh * uTouch * aRandom.z - (uScrollY * (aRandom.z - 0.75) * 0.9);
 
 	// Scroll offset y
-	modelPosition.y += uScrollY;
+	modelPosition.y += uScrollY * 0.7;
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
