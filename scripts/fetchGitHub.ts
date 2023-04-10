@@ -1,5 +1,6 @@
 import { Octokit } from 'octokit'
 import { User } from '@octokit/graphql-schema'
+import { writeFile } from 'fs/promises'
 
 const octokit = new Octokit({
 	auth: process.env.GITHUB_TOKEN,
@@ -71,6 +72,14 @@ for await (const repo of Object.keys(repos) || []) {
 	if (!repo) continue
 	commits[repo] = await fetchRepoCommits(repo)
 }
-console.info('commits', commits)
 
-export {}
+await writeFile(
+	`./src/data/github.json`,
+	JSON.stringify(
+		{
+			commits,
+		},
+		null,
+		2
+	)
+)

@@ -1,3 +1,5 @@
+import { writeFile } from 'fs/promises'
+
 import type {
 	QuestionItem,
 	ReputationHistoryItem,
@@ -46,10 +48,8 @@ const query = async <Item>(
 }
 
 const topTags = await query<TopTagItem>('me/top-tags')
-console.info('me/top-tags', topTags)
 
 const repHistory = await query<ReputationHistoryItem>('me/reputation-history')
-console.info('me/reputation-history', repHistory)
 
 interface ExtendedTimelineItem extends UserTimelineItem {
 	tags?: QuestionItem['tags']
@@ -58,25 +58,22 @@ const timeline = await query<ExtendedTimelineItem>('me/timeline')
 
 const questionPostIds = timeline.items
 	.filter((item) => item.post_type === 'question')
-	.map((item) => {
-		item.post_id
-	})
+	.map((item) => item.post_id)
 
 const answerPostIds = timeline.items
 	.filter((item) => item.post_type === 'answer')
-	.map((item) => {
-		item.post_id
-	})
+	.map((item) => item.post_id)
 
 for (let i = 0; i < questionPostIds.length; i += 100) {
 	const batch = questionPostIds.slice(i, i + 100)
 	const questionPostIdsPath = batch.join(';')
 	const questions = await query<QuestionItem>(
-		`me/questions/${questionPostIdsPath}`
+		`questions/${questionPostIdsPath}`
 	)
 	questions.items.forEach((question) => {
 		const timelineItem = timeline.items.find(
-			(item) => item.post_id === question.question_id
+			(item) =>
+				item.post_id === question.question_id && item.timeline_type === 'asked'
 		)
 		if (timelineItem) {
 			timelineItem.tags = question.tags
@@ -88,11 +85,12 @@ for (let i = 0; i < answerPostIds.length; i += 100) {
 	const batch = answerPostIds.slice(i, i + 100)
 	const answerPostIdsPath = batch.join(';')
 	const questions = await query<QuestionItem>(
-		`me/answers/${answerPostIdsPath}/questions`
+		`answers/${answerPostIdsPath}/questions`
 	)
 	batch.forEach((answerPostId, index) => {
 		const timelineItem = timeline.items.find(
-			(item) => item.post_id === answerPostId
+			(item) =>
+				item.post_id === answerPostId && item.timeline_type === 'answered'
 		)
 		if (timelineItem) {
 			timelineItem.tags = questions.items.at(index)?.tags
@@ -100,6 +98,15 @@ for (let i = 0; i < answerPostIds.length; i += 100) {
 	})
 }
 
-console.info('me/timeline', timeline)
-
-export {}
+await writeFile(
+	`./src/data/stackoverflow.json`,
+	JSON.stringify(
+		{
+			repHistory,
+			topTags,
+			timeline,
+		},
+		null,
+		2
+	)
+)
