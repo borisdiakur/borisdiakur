@@ -1,5 +1,4 @@
 import { FrontSide, ShaderMaterial, Vector2 } from 'three'
-
 import fragmentShader from '../shaders/text/text.frag'
 import vertexShader from '../shaders/text/text.vert'
 import { TickerEvents } from '../ticker/tickerEvents'
@@ -10,6 +9,8 @@ import { sizes } from '../sizes/sizes'
 import { MouseEvents } from '../mouse/mouseEvents'
 import { mouse } from '../mouse/mouse'
 import { isTouchDevice } from '../utils'
+import throttle from 'lodash.throttle'
+import gsap from 'gsap'
 
 function getSize() {
 	return 0.2 * renderer.getPixelRatio() * Math.pow(sizes.width, 0.5)
@@ -38,6 +39,8 @@ export function getMaterial() {
 			uNoiseRotation: { value: 0 },
 			uNoiseTexture: { value: noiseRenderTarget.texture },
 			uOpacity: { value: 0 },
+			uScrollOpacity: { value: 1 },
+			uScrollY: { value: 0 },
 			uSize: {
 				value: getSize(),
 			},
@@ -73,9 +76,67 @@ window.addEventListener(SizesEvents.resize, () => {
 	})
 })
 
-window.addEventListener(MouseEvents.move, () => {
+function updateMouse() {
 	materials.forEach((material) => {
 		material.uniforms.uMouseX.value = mouse.clientX / sizes.width
-		material.uniforms.uMouseY.value = mouse.clientY / sizes.height
+		material.uniforms.uMouseY.value =
+			mouse.clientY / sizes.height + window.scrollY / sizes.height
 	})
-})
+}
+const updateMouseThrottled = throttle(updateMouse, 20)
+
+let scrollY = 0
+let scrollOpacity = 1
+function updateScrollY() {
+	const duration = 0.3
+
+	const tweenObjScrollY = {
+		scrollY,
+	}
+	gsap.to(tweenObjScrollY, {
+		scrollY:
+			(window.scrollY / window.innerHeight) *
+			(window.innerHeight / window.innerWidth) *
+			2,
+		duration,
+		overwrite: 'auto',
+		ease: 'power2.inout',
+		onUpdate: () => {
+			scrollY = tweenObjScrollY.scrollY
+			materials.forEach((material) => {
+				material.uniforms.uScrollY.value = scrollY
+			})
+		},
+	})
+
+	const tweenObjScrollOpacity = {
+		scrollOpacity,
+	}
+	gsap.to(tweenObjScrollOpacity, {
+		scrollOpacity: window.scrollY > 20 ? 0 : 1,
+		duration: duration * 2.5,
+		overwrite: 'auto',
+		ease: 'power4.out',
+		onUpdate: () => {
+			scrollOpacity = tweenObjScrollOpacity.scrollOpacity
+			materials.forEach((material) => {
+				material.uniforms.uScrollOpacity.value = scrollOpacity
+			})
+		},
+	})
+}
+const updateScrollYThrottled = throttle(updateScrollY, 50)
+
+window.addEventListener(MouseEvents.move, updateMouse)
+
+document.addEventListener(
+	'scroll',
+	() => {
+		updateMouseThrottled()
+		// updateScrollY()
+		updateScrollYThrottled()
+	},
+	{
+		passive: true,
+	}
+)

@@ -10,6 +10,7 @@ uniform float uMouseX;
 uniform float uMouseY;
 uniform float uNoiseRotation;
 uniform sampler2D uNoiseTexture;
+uniform float uScrollY;
 uniform float uSize;
 uniform float uTime;
 uniform float uTouch;
@@ -106,9 +107,12 @@ void main() {
 
 	// Boost effect
 	modelPosition.x +=
-		(aRandom.x - 0.5) * 6.0 * mouseStrengh * uTouch * aRandom.z;
+		(aRandom.x - 0.5) * 6.0 * mouseStrengh * uTouch * aRandom.z - (uScrollY * (aRandom.x - 0.75) * 0.2);
 	modelPosition.y +=
-		(aRandom.y - 0.45) * 4.0 * mouseStrengh * uTouch * aRandom.z;
+		(aRandom.y - 0.45) * 4.0 * mouseStrengh * uTouch * aRandom.z - (uScrollY * (aRandom.z - 0.75) * 0.9);
+
+	// Scroll offset y
+	modelPosition.y += uScrollY;
 
 	vec4 viewPosition = viewMatrix * modelPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;

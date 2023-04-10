@@ -1,13 +1,4 @@
-html {
-	background-color: honeydew;
-	background-repeat: no-repeat;
-	background-size: max(100vw, 100vh) max(100vw, 100vh);
-	background-position: center;
-}
-
 body {
-	overflow: hidden;
-
 	&::before {
 		animation-duration: 0.5s;
 		animation-timing-function: ease;
@@ -17,28 +8,6 @@ body {
 		inset: 0;
 		z-index: 999;
 		background-color: honeydew;
-	}
-
-	&::after {
-		content: '';
-		position: absolute;
-		height: 300%;
-		width: 300%;
-		background-image: radial-gradient(
-			ellipse at 50% 50%,
-			floralwhite 5%,
-			transparent 35%
-		);
-		background-repeat: no-repeat;
-		background-position: center;
-		background-size: max(300vw, 300vh) max(240vw, 240vh);
-		transform: translate(
-			calc((var(--mouse-x, 50%) - 50%) / 3),
-			calc((var(--mouse-y, 50%) - 50%) / 3)
-		);
-		left: -100%;
-		top: -100%;
-		z-index: -1;
 	}
 
 	&.ready {

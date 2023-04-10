@@ -2,6 +2,7 @@
 uniform float uAspectRatio;
 uniform sampler2D uNoiseTexture;
 uniform float uOpacity;
+uniform float uScrollOpacity;
 uniform float uTargetOpacity;
 uniform float uTime;
 
@@ -15,7 +16,6 @@ varying vec2 vUv;
 
 #define M_PI 3.1415926535897932384626433832795
 
-#include "../utils/logger";
 #include "../utils/perlin";
 #include "../utils/random";
 #include "../utils/rotation";
@@ -36,6 +36,6 @@ void main() {
 
 	float tweenProgressInv = 1.0 - vTweenProgressFract;
 	float opacity = pow(
-		uOpacity * tweenProgressInv + uTargetOpacity * vTweenProgressFract, 4.0);
+		uOpacity * tweenProgressInv + uTargetOpacity * vTweenProgressFract, 4.0) * max(0.0, (1.0 + vRandom.x - 2.0 * (1.0 - uScrollOpacity)));
 	gl_FragColor = vec4(ownCol + rotatedCol, vRandom.z, strength * opacity);
 }

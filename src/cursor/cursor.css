@@ -8,7 +8,8 @@
 	--cursor-frequency: 1;
 	--pulse-amplitude-max: 1.1;
 	opacity: 0;
-	position: absolute;
+	position: fixed;
+	top: 0;
 	z-index: 9;
 	width: 1.2rem;
 	aspect-ratio: 1;
@@ -19,7 +20,7 @@
 }
 
 .cursor > span {
-	position: absolute;
+	position: fixed;
 	display: block;
 	width: 100%;
 	aspect-ratio: 1;

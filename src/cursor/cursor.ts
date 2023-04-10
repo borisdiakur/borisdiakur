@@ -2,6 +2,8 @@ import { isTouchDevice } from '../utils'
 import './cursor.css'
 import { MouseEvents } from '../mouse/mouseEvents'
 import gsap from 'gsap'
+import '../mouse/mouse'
+import '../canvas/canvas'
 
 const root = document.documentElement
 let cursor: HTMLSpanElement

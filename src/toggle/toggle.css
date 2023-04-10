@@ -7,7 +7,7 @@ html {
 }
 
 .dark-light-toggle {
-	position: absolute;
+	position: fixed;
 	top: 1.4rem;
 	right: clamp(1rem, 4.5vw, 1.6rem);
 	width: clamp(2rem, 10vw, 3rem);

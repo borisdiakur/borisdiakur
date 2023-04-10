@@ -1,9 +1,7 @@
 footer {
-	position: absolute;
+	position: relative;
 	bottom: 1rem;
 	margin: 0 auto;
-	left: 50%;
-	transform: translateX(-50%);
 	text-align: center;
 	pointer-events: none;
 	cursor: none;
