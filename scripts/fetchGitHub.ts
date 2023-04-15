@@ -1,5 +1,5 @@
 import { Octokit } from 'octokit'
-import { User } from '@octokit/graphql-schema'
+import { User, Organization } from '@octokit/graphql-schema'
 import { writeFile } from 'fs/promises'
 
 const octokit = new Octokit({
@@ -8,11 +8,28 @@ const octokit = new Octokit({
 
 // Fetch all repository names.
 async function fetchRepos() {
-	const { user } = await octokit.graphql<{ user: User }>(
+	const { user, organization } = await octokit.graphql<{
+		user: User
+		organization: Organization
+	}>(
 		`
 			query repoNames {
 				user(login: "borisdiakur") {
-					repositories(first: 100) {
+					login
+					repositories(first: 100, privacy: PUBLIC) {
+						nodes {
+							name
+							languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+								nodes {
+									name
+								}
+							}
+						}
+					}
+				}
+				organization(login: "emdgroup-liquid") {
+					login
+					repositories(first: 100, privacy: PUBLIC) {
 						nodes {
 							name
 							languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
@@ -34,7 +51,13 @@ async function fetchRepos() {
 	} = {}
 	user.repositories.nodes?.forEach((node) => {
 		if (!node?.name) return
-		repos[node.name] = {
+		repos[user.login + '/' + node.name] = {
+			langs: node?.languages?.nodes?.map((node) => node?.name),
+		}
+	})
+	organization.repositories.nodes?.forEach((node) => {
+		if (!node?.name) return
+		repos[organization.login + '/' + node.name] = {
 			langs: node?.languages?.nodes?.map((node) => node?.name),
 		}
 	})
@@ -43,10 +66,15 @@ async function fetchRepos() {
 const repos = await fetchRepos()
 
 // Fetch all commits for each repository.
-async function fetchRepoCommits(repoName: string) {
+async function fetchRepoCommits(repo: string) {
+	const owner = repo.split('/').at(0)
+	const repoName = repo.split('/').at(-1)
+	if (!repoName || !owner) {
+		return Promise.reject(new Error('Missing repository name or owner.'))
+	}
 	const myCommits: { date: string }[] = []
 	const iterator = octokit.paginate.iterator(octokit.rest.repos.listCommits, {
-		owner: 'borisdiakur',
+		owner,
 		repo: repoName,
 		headers: {
 			'X-GitHub-Api-Version': '2022-11-28',
@@ -77,6 +105,7 @@ await writeFile(
 	`./src/data/github.json`,
 	JSON.stringify(
 		{
+			repos,
 			commits,
 		},
 		null,
