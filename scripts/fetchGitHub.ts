@@ -6,7 +6,7 @@ const octokit = new Octokit({
 	auth: process.env.GITHUB_TOKEN,
 })
 
-// Fetch all repository names.
+// Fetch all repository names and the languages used.
 async function fetchRepos() {
 	const { user, organization } = await octokit.graphql<{
 		user: User
@@ -47,7 +47,14 @@ async function fetchRepos() {
 		}
 	)
 	const repos: {
-		[key: string]: { langs?: (string | undefined)[] }
+		[key: string]: {
+			langs?: (string | undefined)[]
+			commits?: {
+				createdAt?: string
+				deletions?: number
+				additions?: number
+			}[]
+		}
 	} = {}
 	user.repositories.nodes?.forEach((node) => {
 		if (!node?.name) return
@@ -65,40 +72,93 @@ async function fetchRepos() {
 }
 const repos = await fetchRepos()
 
-// Fetch all commits for each repository.
-async function fetchRepoCommits(repo: string) {
+// Fetch all commits.
+async function fetchRepoCommits(
+	repo: string,
+	cursor?: string
+): Promise<
+	{
+		committedDate: string
+		deletions: number
+		additions: number
+	}[]
+> {
 	const owner = repo.split('/').at(0)
 	const repoName = repo.split('/').at(-1)
 	if (!repoName || !owner) {
 		return Promise.reject(new Error('Missing repository name or owner.'))
 	}
-	const myCommits: { date: string }[] = []
-	const iterator = octokit.paginate.iterator(octokit.rest.repos.listCommits, {
-		owner,
-		repo: repoName,
-		headers: {
-			'X-GitHub-Api-Version': '2022-11-28',
-		},
-		per_page: 100,
-	})
-	// Iterate through each response.
-	for await (const { data: commits } of iterator) {
-		for (const { commit } of commits) {
-			if (
-				!commit.author?.name?.toLowerCase().includes('diakur') &&
-				!commit.author?.email?.toLowerCase().includes('borisd')
-			) {
-				continue
+
+	const data = await octokit.graphql<{
+		repository: {
+			defaultBranchRef: {
+				target: {
+					history: {
+						nodes: {
+							committedDate: string
+							deletions: number
+							additions: number
+						}[]
+						pageInfo: {
+							hasNextPage: boolean
+							endCursor: string
+						}
+					}
+				}
 			}
-			myCommits.push({ date: commit.author.date as string })
 		}
+	}>(
+		`
+			query commits($owner: String!, $repoName: String!, $cursor: String) {
+				repository(owner: $owner, name: $repoName) {
+					... on Repository {
+						defaultBranchRef {
+							target {
+								... on Commit {
+									history(first: 100, after: $cursor) {
+										nodes {
+											... on Commit {
+												committedDate
+												deletions
+												additions
+											}
+										}
+										pageInfo {
+											hasNextPage
+											endCursor
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		`,
+		{
+			owner,
+			repoName,
+			cursor,
+		}
+	)
+
+	const { repository } = data
+	const commits = repository.defaultBranchRef.target.history.nodes
+	if (repository.defaultBranchRef.target.history.pageInfo.hasNextPage) {
+		return [
+			...commits,
+			...(await fetchRepoCommits(
+				repo,
+				repository.defaultBranchRef.target.history.pageInfo.endCursor
+			)),
+		]
+	} else {
+		return commits
 	}
-	return myCommits
 }
-const commits: { [key: string]: { date: string }[] } = {}
 for await (const repo of Object.keys(repos) || []) {
 	if (!repo) continue
-	commits[repo] = await fetchRepoCommits(repo)
+	repos[repo].commits = await fetchRepoCommits(repo)
 }
 
 await writeFile(
@@ -106,7 +166,6 @@ await writeFile(
 	JSON.stringify(
 		{
 			repos,
-			commits,
 		},
 		null,
 		2
