@@ -111,22 +111,18 @@ async function fetchRepoCommits(
 		`
 			query commits($owner: String!, $repoName: String!, $cursor: String) {
 				repository(owner: $owner, name: $repoName) {
-					... on Repository {
-						defaultBranchRef {
-							target {
-								... on Commit {
-									history(first: 100, after: $cursor) {
-										nodes {
-											... on Commit {
-												committedDate
-												deletions
-												additions
-											}
-										}
-										pageInfo {
-											hasNextPage
-											endCursor
-										}
+					defaultBranchRef {
+						target {
+							... on Commit {
+								history(first: 100, after: $cursor) {
+									nodes {
+										committedDate
+										deletions
+										additions
+									}
+									pageInfo {
+										hasNextPage
+										endCursor
 									}
 								}
 							}
