@@ -12,6 +12,8 @@
 	},
 	"devDependencies": {
 		"@octokit/graphql-schema": "^13.10.0",
+		"@types/d3": "^7.4.0",
+		"@types/d3-scale": "^4.0.3",
 		"@types/dat.gui": "^0.7.7",
 		"@types/lodash.memoize": "^4.1.7",
 		"@types/lodash.throttle": "^4.1.7",
@@ -30,11 +32,13 @@
 		"postcss-preset-env": "^7.8.0",
 		"prettier": "^2.7.1",
 		"ts-node": "^10.9.1",
-		"typescript": "^4.7.4",
+		"typescript": "^5.0.4",
 		"vite": "^3.0.7",
 		"vite-plugin-glsl": "^0.3.0"
 	},
 	"dependencies": {
+		"d3": "^7.8.4",
+		"d3-scale": "^4.0.2",
 		"gsap": "^3.11.1",
 		"lil-gui": "^0.17.0",
 		"lodash.memoize": "^4.1.2",
