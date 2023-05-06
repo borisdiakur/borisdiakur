@@ -12,57 +12,55 @@ import {
 	type Selection,
 	type NumberValue,
 } from 'd3'
-import { repos } from './github.json'
+import { repos as reposRaw } from './github.json'
+
+type Repo = {
+	langs: string[]
+	commits: {
+		committedDate: string
+		deletions: number
+		additions: number
+	}[]
+}
+
+const repos = reposRaw as { [key: string]: Repo }
 
 const github = select('#github')
-
-const { commits } = repos['borisdiakur/n_']
 
 type DataItem = {
 	additions: number
 	deletions: number
 }
 
-//Read the data
-const data: Map<string, DataItem> = new Map()
+// Read the data - TODO: move data transformation to the built step for enhanced performance
+const data: Map<string, Map<string, DataItem>> = new Map()
 let minDate: string = new Date().toISOString().split('T')[0]
 let maxDate: string = new Date(0).toISOString().split('T')[0]
-commits.forEach((commit) => {
-	const dateString: string = new Date(commit.committedDate)
-		.toISOString()
-		.split('T')[0]
-	if (dateString < minDate) minDate = dateString
-	if (dateString > maxDate) maxDate = dateString
-	const existing = data.get(dateString)
-	if (!existing) {
-		data.set(dateString, {
-			additions: commit.additions || 0,
-			deletions: commit.deletions || 0,
-		})
-	} else {
-		data.set(dateString, {
-			additions: existing.additions + (commit.additions || 0),
-			deletions: existing.deletions + (commit.deletions || 0),
-		})
-	}
+Object.keys(repos).forEach((repoName) => {
+	const repo = repos[repoName]
+	const repoData = new Map<string, DataItem>()
+	data.set(repoName, repoData)
+
+	repo.commits.forEach((commit) => {
+		const dateString: string = new Date(commit.committedDate)
+			.toISOString()
+			.split('T')[0]
+		if (dateString < minDate) minDate = dateString
+		if (dateString > maxDate) maxDate = dateString
+		const existing = repoData.get(dateString)
+		if (!existing) {
+			repoData.set(dateString, {
+				additions: commit.additions || 0,
+				deletions: commit.deletions || 0,
+			})
+		} else {
+			repoData.set(dateString, {
+				additions: existing.additions + (commit.additions || 0),
+				deletions: existing.deletions + (commit.deletions || 0),
+			})
+		}
+	})
 })
-
-let dateCounter = minDate
-while (dateCounter < maxDate) {
-	dateCounter = new Date(Number(new Date(dateCounter)) + 86400000)
-		.toISOString()
-		.split('T')[0]
-	if (!data.has(dateCounter)) {
-		data.set(dateCounter, {
-			additions: 0,
-			deletions: 0,
-		})
-	}
-}
-
-const sortedEntries = Array.from(data.entries()).sort((a, b) =>
-	a[0] > b[0] ? 1 : -1
-)
 
 type PlotData = {
 	dates: Date[]
@@ -74,25 +72,40 @@ type PlotData = {
 
 const plotData: PlotData = {
 	dates: [],
-	series: [
-		{
-			name: 'borisdiakur/n_',
-			values: [],
-		},
-	],
+	series: Object.keys(repos).map((repoName) => ({
+		name: repoName,
+		values: [],
+	})),
 }
-sortedEntries.forEach((entry) => {
-	plotData.dates.push(new Date(entry[0]))
-	plotData.series[0].values.push(entry[1].additions + entry[1].deletions)
-})
 
-console.info('minDate', minDate)
-console.info('maxDate', maxDate)
-console.info('plotData', plotData)
+let dateCounter = minDate
+const repoEntries = Array.from(data.entries())
+while (dateCounter <= maxDate) {
+	plotData.dates.push(new Date(dateCounter))
 
-// const height = plotData.series.length * 17
-const height = 200
-const width = 1200
+	repoEntries.forEach((repoEntry) => {
+		const repoName = repoEntry[0]
+		const codeChanges = repoEntry[1].get(dateCounter)
+		const seriesValues = plotData.series.find(
+			(entry) => entry.name === repoName
+		)?.values
+		if (!seriesValues) return
+		if (!codeChanges) {
+			seriesValues.push(0)
+		} else {
+			seriesValues.push(
+				(codeChanges.deletions || 0) + (codeChanges.additions || 0)
+			)
+		}
+	})
+	dateCounter = new Date(Number(new Date(dateCounter)) + 86400000)
+		.toISOString()
+		.split('T')[0]
+}
+
+const height = plotData.series.length * 17
+// const height = 200
+const width = 3200
 const margin = { top: 40, right: 0, bottom: 0, left: 120 }
 const overlap = 8
 
