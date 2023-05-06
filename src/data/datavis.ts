@@ -1,128 +1,167 @@
 import {
+	select,
+	scaleTime,
+	extent,
 	area,
 	axisBottom,
-	axisLeft,
-	csv,
-	extent,
-	max,
 	scaleLinear,
-	scaleOrdinal,
-	select,
-	stack,
+	scalePoint,
+	axisLeft,
+	max,
+	curveBasis as curve,
+	type Selection,
 	type NumberValue,
 } from 'd3'
+import { repos } from './github.json'
 
 const github = select('#github')
 
+const { commits } = repos['borisdiakur/n_']
+
 type DataItem = {
-	year: number
-	name: string
-	n: number
+	additions: number
+	deletions: number
 }
-
-// Define the dimensions and margins of the chart.
-const margin = { top: 10, right: 30, bottom: 30, left: 60 }
-const width = 460 - margin.left - margin.right
-const height = 400 - margin.top - margin.bottom
-
-// Append the svg object and assign dimensions to it.
-const svg = github
-	.append('svg')
-	.attr('width', width + margin.left + margin.right)
-	.attr('height', height + margin.top + margin.bottom)
-	.append('g')
-	.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
 //Read the data
-const data = (
-	await csv(
-		'https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/5_OneCatSevNumOrdered.csv'
-	)
-).map((entry) => ({
-	year: parseInt(entry.year as string),
-	name: entry.name,
-	n: parseInt(entry.n as string),
-})) as unknown as DataItem[]
-
-type DataGroup = {
-	key: number
-	values: Omit<DataItem, 'year'>[]
-}
-
-// Group the data: one array for each value of the X axis.
-const sumstat: DataGroup[] = []
-data.forEach((item) => {
-	const { year, ...rest } = item
-	const group = sumstat.find((g) => g.key === year)
-	if (!group) {
-		sumstat.push({
-			key: year,
-			values: [rest],
+const data: Map<string, DataItem> = new Map()
+let minDate: string = new Date().toISOString().split('T')[0]
+let maxDate: string = new Date(0).toISOString().split('T')[0]
+commits.forEach((commit) => {
+	const dateString: string = new Date(commit.committedDate)
+		.toISOString()
+		.split('T')[0]
+	if (dateString < minDate) minDate = dateString
+	if (dateString > maxDate) maxDate = dateString
+	const existing = data.get(dateString)
+	if (!existing) {
+		data.set(dateString, {
+			additions: commit.additions || 0,
+			deletions: commit.deletions || 0,
 		})
 	} else {
-		group.values.push(rest)
+		data.set(dateString, {
+			additions: existing.additions + (commit.additions || 0),
+			deletions: existing.deletions + (commit.deletions || 0),
+		})
 	}
 })
 
-// Stack the data: each group will be represented on top of each other
-const mygroups = ['Helen', 'Amanda', 'Ashley'] // list of group names
-const mygroup = [1, 2, 3] // list of group names
-const stackedData = stack()
-	.keys(mygroup as Iterable<string>)
-	.value((d, key) => {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		return (d as { [index: string]: any }).values[key].n
-	})(sumstat as Iterable<{ [key: string]: number }>)
+let dateCounter = minDate
+while (dateCounter < maxDate) {
+	dateCounter = new Date(Number(new Date(dateCounter)) + 86400000)
+		.toISOString()
+		.split('T')[0]
+	if (!data.has(dateCounter)) {
+		data.set(dateCounter, {
+			additions: 0,
+			deletions: 0,
+		})
+	}
+}
 
-// Add X axis --> it is a date format
-const x = scaleLinear()
-	.domain(extent(data, (d) => d.year) as Iterable<NumberValue>)
-	.range([0, width])
-svg
-	.append('g')
-	.attr('transform', 'translate(0,' + height + ')')
-	.call(axisBottom(x).ticks(5))
+const sortedEntries = Array.from(data.entries()).sort((a, b) =>
+	a[0] > b[0] ? 1 : -1
+)
 
-// Add Y axis
-const y = scaleLinear()
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	.domain([0, max(data, (d) => d.n) * 1.2])
-	.range([height, 0])
-svg.append('g').call(axisLeft(y))
+type PlotData = {
+	dates: Date[]
+	series: {
+		name: string
+		values: number[]
+	}[]
+}
 
-// color palette
-const color = scaleOrdinal()
-	.domain(mygroups)
-	.range([
-		'#e41a1c',
-		'#377eb8',
-		'#4daf4a',
-		'#984ea3',
-		'#ff7f00',
-		'#ffff33',
-		'#a65628',
-		'#f781bf',
-		'#999999',
-	])
+const plotData: PlotData = {
+	dates: [],
+	series: [
+		{
+			name: 'borisdiakur/n_',
+			values: [],
+		},
+	],
+}
+sortedEntries.forEach((entry) => {
+	plotData.dates.push(new Date(entry[0]))
+	plotData.series[0].values.push(entry[1].additions + entry[1].deletions)
+})
 
-// Show the areas
-svg
-	.selectAll('mylayers')
-	.data(stackedData)
-	.enter()
-	.append('path')
-	.style('fill', (d) => {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const name = mygroups[(d as { [index: string]: any }).key - 1]
-		return color(name) as string
-	})
-	.attr(
-		'd',
-		area()
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			.x((d) => x(d.data.key))
-			.y0((d) => y(d[0]))
-			.y1((d) => y(d[1])) as unknown as string
+console.info('minDate', minDate)
+console.info('maxDate', maxDate)
+console.info('plotData', plotData)
+
+// const height = plotData.series.length * 17
+const height = 200
+const width = 1200
+const margin = { top: 40, right: 0, bottom: 0, left: 120 }
+const overlap = 8
+
+const x = scaleTime()
+	.domain(extent(plotData.dates) as Iterable<Date | NumberValue>)
+	.range([margin.left, width - margin.right])
+
+const y = scalePoint()
+	.domain(plotData.series.map((d) => d.name))
+	.range([margin.top, height - margin.bottom])
+
+const z = scaleLinear()
+	.domain([
+		0,
+		max(plotData.series, (d) => max(d.values)),
+	] as Iterable<NumberValue>)
+	.nice()
+	.range([0, -overlap * y.step()])
+
+const xAxis = (g: Selection<SVGGElement, unknown, HTMLElement, any>) =>
+	g.attr('transform', `translate(0,${height - margin.bottom})`).call(
+		axisBottom(x)
+			.ticks(width / 80)
+			.tickSizeOuter(0)
 	)
+
+const yAxis = (g: Selection<SVGGElement, unknown, HTMLElement, any>) =>
+	g
+		.attr('transform', `translate(${margin.left},0)`)
+		.call(axisLeft(y).tickSize(0).tickPadding(4))
+		.call((g) => g.select('.domain').remove())
+
+const myArea = area()
+	.curve(curve)
+	.defined((d) => {
+		return !isNaN(d as unknown as number)
+	})
+	.x((_, i) => x(new Date(plotData.dates[i])))
+	.y0(0)
+	.y1((d) => z(d as unknown as NumberValue))
+
+const line = myArea.lineY1()
+
+const svg = github
+	.append('svg')
+	.attr(
+		'viewBox',
+		`0 0 ${width + (margin.left + margin.right)} ${
+			height + (margin.top + margin.bottom)
+		}`
+	)
+
+svg.append('g').call(xAxis)
+svg.append('g').call(yAxis)
+
+const group = svg
+	.append('g')
+	.selectAll('g')
+	.data(plotData.series)
+	.join('g')
+	.attr('transform', (d) => `translate(0,${(y(d.name) || 0) + 1})`)
+
+group
+	.append('path')
+	.attr('fill', '#ddd')
+	.attr('d', (d) => myArea(d.values as Iterable<[number, number]>))
+
+group
+	.append('path')
+	.attr('fill', 'none')
+	.attr('stroke', 'black')
+	.attr('d', (d) => line(d.values as Iterable<[number, number]>))
