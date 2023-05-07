@@ -13,12 +13,14 @@ async function fetchRepos() {
 		organization: Organization
 	}>(
 		`
-			query repoNames {
-				user(login: "borisdiakur") {
+			query repoNames($login: String!) {
+				user(login: $login) {
 					login
 					repositories(first: 100, privacy: PUBLIC) {
 						nodes {
 							name
+							isFork
+							isArchived
 							languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
 								nodes {
 									name
@@ -32,6 +34,8 @@ async function fetchRepos() {
 					repositories(first: 100, privacy: PUBLIC) {
 						nodes {
 							name
+							isFork
+							isArchived
 							languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
 								nodes {
 									name
@@ -43,7 +47,7 @@ async function fetchRepos() {
 			}
 		`,
 		{
-			username: 'borisdiakur',
+			login: 'borisdiakur',
 		}
 	)
 	const repos: {
@@ -57,13 +61,13 @@ async function fetchRepos() {
 		}
 	} = {}
 	user.repositories.nodes?.forEach((node) => {
-		if (!node?.name) return
+		if (!node?.name || node.isArchived || node.isFork) return
 		repos[user.login + '/' + node.name] = {
 			langs: node?.languages?.nodes?.map((node) => node?.name),
 		}
 	})
 	organization.repositories.nodes?.forEach((node) => {
-		if (!node?.name) return
+		if (!node?.name || node.isArchived || node.isFork) return
 		repos[organization.login + '/' + node.name] = {
 			langs: node?.languages?.nodes?.map((node) => node?.name),
 		}

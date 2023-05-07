@@ -32,7 +32,7 @@ type DataItem = {
 	deletions: number
 }
 
-// Read the data - TODO: move data transformation to the built step for enhanced performance
+// Read the data - TODO: move data transformation to the built step for enhanced loading performance
 const data: Map<string, Map<string, DataItem>> = new Map()
 let minDate: string = new Date().toISOString().split('T')[0]
 let maxDate: string = new Date(0).toISOString().split('T')[0]
@@ -78,7 +78,9 @@ const plotData: PlotData = {
 	})),
 }
 
-let dateCounter = minDate
+let dateCounter = new Date(Number(new Date(minDate)) - 5 * 86400000)
+	.toISOString()
+	.split('T')[0]
 const repoEntries = Array.from(data.entries())
 while (dateCounter <= maxDate) {
 	plotData.dates.push(new Date(dateCounter))
@@ -103,15 +105,15 @@ while (dateCounter <= maxDate) {
 		.split('T')[0]
 }
 
-const height = plotData.series.length * 17
-// const height = 200
-const width = 3200
-const margin = { top: 40, right: 0, bottom: 0, left: 120 }
-const overlap = 8
+const height = plotData.series.length * 10
+const width = 1500
+const margin = { top: 40, right: 0, bottom: 0, left: 180 }
+const overlap = 12
+const xStretch = 8
 
 const x = scaleTime()
 	.domain(extent(plotData.dates) as Iterable<Date | NumberValue>)
-	.range([margin.left, width - margin.right])
+	.range([margin.left, width * xStretch - margin.right])
 
 const y = scalePoint()
 	.domain(plotData.series.map((d) => d.name))
@@ -153,10 +155,11 @@ const svg = github
 	.append('svg')
 	.attr(
 		'viewBox',
-		`0 0 ${width + (margin.left + margin.right)} ${
+		`0 0 ${width * xStretch + (margin.left + margin.right)} ${
 			height + (margin.top + margin.bottom)
 		}`
 	)
+	.attr('width', `${100 * xStretch}%`)
 
 svg.append('g').call(xAxis)
 svg.append('g').call(yAxis)
@@ -170,11 +173,12 @@ const group = svg
 
 group
 	.append('path')
-	.attr('fill', '#ddd')
+	.attr('fill', '#e11b6580')
 	.attr('d', (d) => myArea(d.values as Iterable<[number, number]>))
 
 group
 	.append('path')
 	.attr('fill', 'none')
-	.attr('stroke', 'black')
+	.attr('stroke', '#7e0b3650')
+	.attr('stroke-width', '0.5px')
 	.attr('d', (d) => line(d.values as Iterable<[number, number]>))
