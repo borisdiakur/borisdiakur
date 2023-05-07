@@ -5,7 +5,6 @@ import {
 	scaleTime,
 	extent,
 	area,
-	axisBottom,
 	scaleLinear,
 	scalePoint,
 	axisLeft,
@@ -117,20 +116,21 @@ while (dateCounter <= maxDate) {
 		.split('T')[0]
 }
 
-const ridgeHeight = 12
-const height = plotData.series.length * ridgeHeight
-const width = 1500
-const margin = { top: 40, right: 0, bottom: 0, left: 180 }
-const overlap = 32
-const xStretch = 8
+const ridgeWidth = 60
+const width = plotData.series.length * ridgeWidth
+const height = 1500
+const margin = { top: 0, right: 200, bottom: 0, left: 80 }
+const overlap = -12
+const yStretch = 32
 
-const x = scaleTime()
-	.domain(extent(plotData.dates) as Iterable<Date | NumberValue>)
-	.range([margin.left, width * xStretch - margin.right])
+const yDomain = extent(plotData.dates).reverse() as Iterable<Date | NumberValue>
+const y = scaleTime()
+	.domain(yDomain)
+	.range([margin.top, height * yStretch - margin.bottom])
 
-const y = scalePoint()
+const x = scalePoint()
 	.domain(plotData.series.map((d) => d.name))
-	.range([margin.top, height - margin.bottom])
+	.range([margin.left, width - margin.right])
 
 const z = scaleLinear()
 	.domain([
@@ -138,16 +138,9 @@ const z = scaleLinear()
 		max(plotData.series, (d) => max(d.values)),
 	] as Iterable<NumberValue>)
 	.nice()
-	.range([0, -overlap * y.step()])
+	.range([0, -overlap * x.step()])
 
 const xAxis = (g: Selection<SVGGElement, unknown, HTMLElement, any>) =>
-	g.attr('transform', `translate(0,${height - margin.bottom})`).call(
-		axisBottom(x)
-			.ticks(width / 80)
-			.tickSizeOuter(0)
-	)
-
-const yAxis = (g: Selection<SVGGElement, unknown, HTMLElement, any>) =>
 	g
 		.attr('transform', `translate(${margin.left},0)`)
 		.call(axisLeft(y).tickSize(0).tickPadding(4))
@@ -158,31 +151,31 @@ const myArea = area()
 	.defined((d) => {
 		return !isNaN(d as unknown as number)
 	})
-	.x((_, i) => x(new Date(plotData.dates[i])))
-	.y0(0)
-	.y1((d) => z(d as unknown as NumberValue))
+	.y((_, i) => y(new Date(plotData.dates[i])))
+	.x0(0)
+	.x1((d) => z(d as unknown as NumberValue))
 
-const line = myArea.lineY1()
+const line = myArea.lineX1()
 
 const svg = github
 	.append('svg')
 	.attr(
 		'viewBox',
-		`0 0 ${width * xStretch + (margin.left + margin.right)} ${
-			height + (margin.top + margin.bottom)
+		`0 0 ${width + (margin.left + margin.right)} ${
+			height * yStretch + (margin.top + margin.bottom)
 		}`
 	)
-	.attr('width', `${100 * xStretch}%`)
+	.attr('height', `${100 * yStretch}%`)
 
 svg.append('g').call(xAxis)
-svg.append('g').call(yAxis)
+// svg.append('g').call(yAxis)
 
 const group = svg
 	.append('g')
 	.selectAll('g')
-	.data(plotData.series)
+	.data(plotData.series.reverse())
 	.join('g')
-	.attr('transform', (d) => `translate(0,${(y(d.name) || 0) + 1})`)
+	.attr('transform', (d) => `translate(${(x(d.name) || 0) + 1}, 0)`)
 	.classed('ridge', true)
 	.on('mouseover', function () {
 		select(this).classed('ridge--active', true)
@@ -206,7 +199,7 @@ group
 group
 	.append('rect')
 	.attr('fill', 'transparent')
-	.attr('width', '100%')
-	.attr('x', margin.left)
-	.attr('y', -ridgeHeight)
-	.attr('height', ridgeHeight)
+	.attr('height', '100%')
+	// .attr('x', ridgeHeight)
+	.attr('y', margin.top)
+	.attr('width', ridgeWidth)
