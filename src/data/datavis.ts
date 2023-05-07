@@ -1,3 +1,5 @@
+import './datavis.css'
+
 import {
 	select,
 	scaleTime,
@@ -72,10 +74,16 @@ type PlotData = {
 
 const plotData: PlotData = {
 	dates: [],
-	series: Object.keys(repos).map((repoName) => ({
-		name: repoName,
-		values: [],
-	})),
+	series: [
+		...Object.keys(repos).map((repoName) => ({
+			name: repoName,
+			values: [],
+		})),
+		// {
+		// 	name: 'all',
+		// 	values: [],
+		// },
+	],
 }
 
 let dateCounter = new Date(Number(new Date(minDate)) - 5 * 86400000)
@@ -85,30 +93,35 @@ const repoEntries = Array.from(data.entries())
 while (dateCounter <= maxDate) {
 	plotData.dates.push(new Date(dateCounter))
 
+	// const allValues = plotData.series.at(-1)?.values || []
+	// let allValue = 0
 	repoEntries.forEach((repoEntry) => {
 		const repoName = repoEntry[0]
 		const codeChanges = repoEntry[1].get(dateCounter)
 		const seriesValues = plotData.series.find(
 			(entry) => entry.name === repoName
-		)?.values
+		)?.values // TODO: use a map instead of executing find on each iteration
 		if (!seriesValues) return
 		if (!codeChanges) {
 			seriesValues.push(0)
 		} else {
-			seriesValues.push(
-				(codeChanges.deletions || 0) + (codeChanges.additions || 0)
-			)
+			const sum = (codeChanges.deletions || 0) + (codeChanges.additions || 0)
+			seriesValues.push(sum)
+			// allValue += sum
 		}
 	})
+	// allValues.push(allValue)
+
 	dateCounter = new Date(Number(new Date(dateCounter)) + 86400000)
 		.toISOString()
 		.split('T')[0]
 }
 
-const height = plotData.series.length * 10
+const ridgeHeight = 12
+const height = plotData.series.length * ridgeHeight
 const width = 1500
 const margin = { top: 40, right: 0, bottom: 0, left: 180 }
-const overlap = 12
+const overlap = 32
 const xStretch = 8
 
 const x = scaleTime()
@@ -170,10 +183,17 @@ const group = svg
 	.data(plotData.series)
 	.join('g')
 	.attr('transform', (d) => `translate(0,${(y(d.name) || 0) + 1})`)
+	.classed('ridge', true)
+	.on('mouseover', function () {
+		select(this).classed('ridge--active', true)
+	})
+	.on('mouseout', function () {
+		select(this).classed('ridge--active', false)
+	})
 
 group
 	.append('path')
-	.attr('fill', '#e11b6580')
+	.attr('fill', '#e11b65')
 	.attr('d', (d) => myArea(d.values as Iterable<[number, number]>))
 
 group
@@ -182,3 +202,11 @@ group
 	.attr('stroke', '#7e0b3650')
 	.attr('stroke-width', '0.5px')
 	.attr('d', (d) => line(d.values as Iterable<[number, number]>))
+
+group
+	.append('rect')
+	.attr('fill', 'transparent')
+	.attr('width', '100%')
+	.attr('x', margin.left)
+	.attr('y', -ridgeHeight)
+	.attr('height', ridgeHeight)

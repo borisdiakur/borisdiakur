@@ -1,0 +1,9 @@
+.ridge {
+	transition: opacity 0.25s ease;
+	opacity: 0.3;
+	will-change: opacity;
+
+	&--active {
+		opacity: 1;
+	}
+}
