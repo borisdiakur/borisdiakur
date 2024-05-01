@@ -6,7 +6,7 @@ html {
 }
 
 body {
-	overflow: hidden;
+	overflow: hidden !important;
 
 	&::before {
 		animation-duration: 0.5s;
