@@ -3,6 +3,7 @@
 My name is Boris and I'm a frontend developer with a strong focus on accessibility and usability. I advocate open source, value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
 
 #### Some recent pet projects
+🩰 [balletschool.glazshneyder.com](https://balletschool.glazshneyder.com)<br>
 👋 [borisdiakur.de](https://borisdiakur.de)<br>
 🔄 [backflip.training](https://backflip.training)<br>
 🚗 [zarulem.borisdiakur.de](https://zarulem.borisdiakur.de)<br>
