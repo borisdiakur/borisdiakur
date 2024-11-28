@@ -4,10 +4,10 @@ My name is Boris and I'm a frontend developer with a strong focus on accessibili
 
 #### Some recent pet projects
 ⬇️ [downonly.xyz](https://downonly.xyz)<br>
-🩰 [balletschool.glazshneyder.com](https://balletschool.glazshneyder.com/en/)<br>
 👋 [borisdiakur.de](https://borisdiakur.de)<br>
 🔄 [backflip.training](https://backflip.training)<br>
 🚗 [zarulem.borisdiakur.de](https://zarulem.borisdiakur.de)<br>
+🩰 [balletschool.glazshneyder.com](https://balletschool.glazshneyder.com/en/)<br>
 
 #### I hang out on
 🐈‍⬛ [github.com/borisdiakur](https://github.com/borisdiakur)<br>
