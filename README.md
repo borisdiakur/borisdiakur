@@ -3,6 +3,7 @@
 My name is Boris and I'm a frontend developer with a strong focus on accessibility and usability. I advocate open source, value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
 
 #### Some recent pet projects
+🎧 [readback](https://github.com/borisdiakur/readback#readme)<br>
 🛩️ [xp-command](https://github.com/borisdiakur/xp-command#readme)<br>
 ⬇️ [downonly.xyz](https://downonly.xyz)<br>
 👋 [borisdiakur.de](https://borisdiakur.de)<br>
