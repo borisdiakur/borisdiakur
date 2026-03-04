@@ -12,5 +12,5 @@ My name is Boris and I'm a frontend developer with a strong focus on accessibili
 
 #### I hang out on
 🐈‍⬛ [github.com/borisdiakur](https://github.com/borisdiakur)<br>
-🥞 [stackoverflow.com/users/601466/borisdiakur](https://stackoverflow.com/users/601466/borisdiakur)<br>
+🥞 [stackoverflow.com/users/601466/borisdiakur](https://stackoverflow.com/users/601466/borisdiakur) (not anymore, RIP)<br>
 🦣 [mas.to/@diakur](https://mas.to/@diakur)
