@@ -1,6 +1,6 @@
 ### Hi
 
-My name is Boris and I'm a frontend developer with a strong focus on accessibility and usability. I advocate open source, value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
+My name is Boris and I'm an engineer on the Base Command Manager team at NVIDIA. I value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
 
 #### Some recent pet projects
 🛣️ [autobahndotcom.de](https://autobahndotcom.de)<br>
