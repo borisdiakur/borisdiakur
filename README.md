@@ -1,6 +1,6 @@
 ### Hi
 
-My name is Boris and I'm an engineer on the Base Command Manager team at NVIDIA. I value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
+My name is Boris and I'm an engineer on the Base Command Manager team at NVIDIA.<br>I value simplicity, pragmatism, transparency, knowledge sharing and a respectful interaction with one another.
 
 #### Some recent pet projects
 🛣️ [autobahndotcom.de](https://autobahndotcom.de)<br>
@@ -13,5 +13,5 @@ My name is Boris and I'm an engineer on the Base Command Manager team at NVIDIA.
 
 #### I hang out on
 🐈‍⬛ [github.com/borisdiakur](https://github.com/borisdiakur)<br>
-🥞 [stackoverflow.com/users/601466/borisdiakur](https://stackoverflow.com/users/601466/borisdiakur) (not anymore, RIP)<br>
+🥞 [stackoverflow.com/users/601466/borisdiakur](https://stackoverflow.com/users/601466/borisdiakur) (not anymore, RIP 🪦🥀)<br>
 🦣 [mas.to/@diakur](https://mas.to/@diakur)
